@@ -1,3 +1,9 @@
+"""
+Codes for computing mu, or looking it up in mu_dic, a dictionary containing 
+the values of mu for graphs with at most 7 vertices.
+"""
+
+## mu_dic contains graph6.string and it mu for graphs with at most 7 vertices.
 mu_dic={'FG_qw': 2, 'F@HI_': 2, 'F_LLg': 3, 'F?]rw': 3, 'FG?yo': 3, 'FR\\}w':
 4, 'FG]^g': 3, 'FGD\\o': 3, 'ENzw': 4, 'FHQ?w': 2, 'F?\\~_': 4, 'FB]uW':
 3, 'FGCWw': 3, 'F?Dlw': 2, 'F@Fmw': 3, 'F`L|w': 4, 'FPLYw': 3, 'FA]rw':
@@ -209,6 +215,79 @@ mu_dic={'FG_qw': 2, 'F@HI_': 2, 'F_LLg': 3, 'F?]rw': 3, 'FG?yo': 3, 'FR\\}w':
 'F?lrg': 3, 'F?Ca?': 1, 'F_D|o': 3};
 
 def get_mu_from_dic(graph):
+    """
+    For a given graph, look it up in mu_dic for its mu.
+    
+    INPUT
+    graph: a graph with at most 7 vertices
+    
+    OUTPUT
+    The corresponding value of mu.
+    """
     h=graph.canonical_label();
     h_name=h.graph6_string();
     return mu_dic[h_name];
+
+## Forbidden minors for linklessly embeddable.
+PetersenFamily=graphs.petersen_family();
+
+## This paragraph comes from http://ask.sagemath.org/question/
+## 8112/graph-minor-code-too-slow-in-certain-situations-sage-46/
+def has_minor(G, H):
+    try:
+        m = G.minor(H)
+        return True
+    except ValueError: 
+        return False
+
+
+def find_mu(g):
+    """
+    Try to find mu for a given graph, by low-value tests, such 
+    as planarity.
+    
+    INPUT
+    g: a graph
+    
+    OUTPUT
+    mu, if the exact value is determined;
+    (low_bound,up_bound), otherwise.
+    """
+    n=g.order();
+    low_bound,up_bound=0,n;
+    min_deg=n-1;
+    max_deg=0;
+    ## Get min/max_deg
+    for i in g.vertices():
+        deg=g.degree(i);
+        if deg<min_deg:
+            min_deg=deg;
+        if deg>max_deg:
+            max_deg=deg; 
+    ## Decrease up_bound
+    if min_deg==n-1:
+        return n-1;
+    up_bound=n-2;     
+    ## Increase low_bound         
+    if n==1:
+        return 0;
+    if g.is_forest():
+        if max_deg<=2:
+            return 1;
+        return 2;                
+    if g.is_circular_planar():
+        return 2;
+    if g.is_planar():
+        return 3;
+    low_bound=4;
+    for p in PetersenFamily:
+        if has_minor(g,p):
+            low_bound=5;
+    if low_bound==4:
+        return 4;
+    ## No idea now.
+    if low_bound==up_bound:
+        return low_bound;
+    return (low_bound,up_bound);
+## Need has_minor function and PetersenFamily list.
+## Minor algorithm works slow.

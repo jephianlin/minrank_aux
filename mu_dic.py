@@ -1,7 +1,5 @@
-"""
-Codes for computing mu, or looking it up in mu_dic, a dictionary containing 
-the values of mu for graphs with at most 7 vertices.
-"""
+print "Codes for computing mu, or looking it up in mu_dic, a dictionary"
+print "containing the values of mu for graphs with at most 7 vertices."
 
 ## mu_dic contains graph6.string and it mu for graphs with at most 7 vertices.
 mu_dic={'FG_qw': 2, 'F@HI_': 2, 'F_LLg': 3, 'F?]rw': 3, 'FG?yo': 3, 'FR\\}w':

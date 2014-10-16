@@ -67,7 +67,8 @@ def gzerosgame(g,F=[],B=[],oc_rule=False):
                     for h_ind in h_index:
                         if h.has_edge((("a",i),("b",i))):
                             No_bridge=False;
-                    if No_banned==True and No_bridge==True:                       
+                    if No_banned==True and No_bridge==True:    
+                    	show(h);
                         blacken_oc_index=blacken_oc_index+h_index;
             if len(blacken_oc_index)==0:
                 return Black_vertices;

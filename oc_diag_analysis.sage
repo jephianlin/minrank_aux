@@ -294,7 +294,7 @@ def find_EZ(g,bound=None, oc_rule=False):
 			break
 	return e-order # EZ=max-order
 	
-	def bridged_edges(J):
+def bridged_edges(J):
     """
     For a give subset J of vertices, return the corresponding edges between X and Y in tilde_bipartite.
     

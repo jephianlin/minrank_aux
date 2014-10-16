@@ -62,16 +62,12 @@ def gzerosgame(g,F=[],B=[],oc_rule=False):
                             i=vtx[1];
                             if i not in h_index:
                                 h_index.append(i);                            
-                    print h_index;
                     No_bridge=True;
                     ## h cannot have bridge edges ai~bi
                     for h_ind in h_index:
-                    	print (("a",h_ind),("b",h_ind));
                         if h.has_edge((("a",h_ind),("b",h_ind))):
-			    print "hi"
                             No_bridge=False;
                     if No_banned==True and No_bridge==True:    
-                    	show(h);
                         blacken_oc_index=blacken_oc_index+h_index;
             if len(blacken_oc_index)==0:
                 return Black_vertices;

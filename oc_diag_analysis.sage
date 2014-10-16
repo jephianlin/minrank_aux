@@ -53,14 +53,22 @@ def gzerosgame(g,F=[],B=[],oc_rule=False):
             for com in h.connected_components_subgraphs():
                 if min(h.degree())==2 and max(h.degree())==2 and (h.order()/2)%2==1:
                     No_banned=True;
+                    ## h cannot have banned edge
                     for b in B:
                         if h.has_edge(b):
                             No_banned=False;
-                    if No_banned==True:                            
-                        for vtx in h.vertices():
+                    h_index=[];
+                    for vtx in h.vertices():
                             i=vtx[1];
-                            if i not in blacken_oc_index:
-                                blacken_oc_index.append(i);
+                            if i not in h_index:
+                                h_index.append(i);                            
+                    No_bridge=True;
+                    ## h cannot have bridge edges ai~bi
+                    for h_ind in h_index:
+                        if h.has_edge((("a",i),("b",i))):
+                            No_bridge=False;
+                    if No_banned==True and No_bridge==True:                       
+                        blacken_oc_index=blacken_oc_index+h_index;
             if len(blacken_oc_index)==0:
                 return Black_vertices;
             else:

@@ -62,6 +62,7 @@ def gzerosgame(g,F=[],B=[],oc_rule=False):
                             i=vtx[1];
                             if i not in h_index:
                                 h_index.append(i);                            
+                    print h_index;
                     No_bridge=True;
                     ## h cannot have bridge edges ai~bi
                     for h_ind in h_index:

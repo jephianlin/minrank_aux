@@ -66,8 +66,8 @@ def gzerosgame(g,F=[],B=[],oc_rule=False):
                     No_bridge=True;
                     ## h cannot have bridge edges ai~bi
                     for h_ind in h_index:
-                    	print (("a",i),("b",i));
-                        if h.has_edge((("a",i),("b",i))):
+                    	print (("a",h_ind),("b",h_ind));
+                        if h.has_edge((("a",h_ind),("b",h_ind))):
 			    print "hi"
                             No_bridge=False;
                     if No_banned==True and No_bridge==True:    

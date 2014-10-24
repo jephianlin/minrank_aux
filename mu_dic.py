@@ -286,7 +286,7 @@ def find_mu(g):
     if low_bound==4:
         return 4;
     ## No idea now.
-    up_bound=min(up_bound,mu_upper(g);
+    up_bound=min(up_bound,mu_upper(g));
     if low_bound==up_bound:
         return low_bound;
     return (low_bound,up_bound);

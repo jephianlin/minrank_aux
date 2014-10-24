@@ -291,3 +291,43 @@ def find_mu(g):
     return (low_bound,up_bound);
 ## Need has_minor function and PetersenFamily list.
 ## Minor algorithm works slow.
+
+def no_twin(g):
+    L=g.vertices();
+    NBR=[g.neighbors(v) for v in L];
+    n=len(L);
+    again=True;
+    for i in range(n-1):
+        for j in range(i+1,n):
+            Ni=NBR[L[i]];
+            Nj=NBR[L[j]];
+            if L[j] in Ni:
+                Ni.remove(L[j]);
+            if L[i] in Nj:
+                Nj.remove(L[i]);              
+            if Ni==Nj:
+                again=False;
+    return again;   
+    
+def mu_upper(g):
+    n=g.order();
+    e=g.size();
+    rough_bdd=int(-0.5+sqrt(2*n+2*e+0.25));
+    upper=n-1;
+    if e==0:
+        return min(n-1,1);
+    if min(g.degree())==n-1:
+        return n-1;
+    else:
+        upper=n-2; 
+        ## This upper doesn't work for K2.
+    h=g.complement();
+    if not no_twin(h):
+        return min(upper,rough_bdd);
+        print "HI"
+    else:        
+        if not h.is_circular_planar():
+            upper=n-4;
+        if not h.is_planar():
+            upper=n-5;
+    return min(upper,rough_bdd);

@@ -266,6 +266,8 @@ def find_mu(g):
     if min_deg==n-1:
         return n-1;
     up_bound=n-2;     
+    ## This up_bound does not apply for K2,
+    ## but doesn't change the result.
     ## Increase low_bound         
     if n==1:
         return 0;

@@ -299,8 +299,8 @@ def no_twin(g):
     again=True;
     for i in range(n-1):
         for j in range(i+1,n):
-            Ni=NBR[L[i]];
-            Nj=NBR[L[j]];
+            Ni=NBR[i];
+            Nj=NBR[j];
             if L[j] in Ni:
                 Ni.remove(L[j]);
             if L[i] in Nj:
@@ -324,7 +324,6 @@ def mu_upper(g):
     h=g.complement();
     if not no_twin(h):
         return min(upper,rough_bdd);
-        print "HI"
     else:        
         if not h.is_circular_planar():
             upper=n-4;

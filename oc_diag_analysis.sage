@@ -40,7 +40,7 @@ def gzerosgame(g,F=[],B=[],oc_rule=False):
 					Black_vertices.add(y)
 				        break
 	if oc_rule==False:
-            return(Black_vertices);
+            return(Black_vertices);
         if oc_rule==True:
             white=set(g.vertices()).difference(Black_vertices);
             white_index=[];

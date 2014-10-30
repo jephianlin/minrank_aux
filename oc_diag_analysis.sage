@@ -40,7 +40,7 @@ def gzerosgame(g,F=[],B=[],oc_rule=False):
 					Black_vertices.add(y)
 				        break
 	if oc_rule==False:
-            return(Black_vertices);
+            return(Black_vertices);
         if oc_rule==True:
             white=set(g.vertices()).difference(Black_vertices);
             white_index=[];
@@ -51,29 +51,29 @@ def gzerosgame(g,F=[],B=[],oc_rule=False):
             h=g.subgraph(induce);
             blacken_oc_index=[];
             for com in h.connected_components_subgraphs():
-                if min(h.degree())==2 and max(h.degree())==2 and (h.order()/2)%2==1:
+                if min(com.degree())==2 and max(com.degree())==2 and (com.order()/2)%2==1:
                     No_banned=True;
-                    ## h cannot have banned edge
+                    ## com cannot have banned edge
                     for b in B:
-                        if h.has_edge(b):
+                        if com.has_edge(b):
                             No_banned=False;
-                    h_index=[];
-                    for vtx in h.vertices():
+                    com_index=[];
+                    for vtx in com.vertices():
                             i=vtx[1];
-                            if i not in h_index:
-                                h_index.append(i);                            
+                            if i not in com_index:
+                                com_index.append(i);                            
                     No_bridge=True;
-                    ## h cannot have bridge edges ai~bi
-                    for h_ind in h_index:
-                        if h.has_edge((("a",h_ind),("b",h_ind))):
+                    ## com cannot have bridge edges ai~bi
+                    for com_ind in com_index:
+                        if com.has_edge((("a",com_ind),("b",com_ind))):
                             No_bridge=False;
                     if No_banned==True and No_bridge==True:    
-                        blacken_oc_index=blacken_oc_index+h_index;
+                        blacken_oc_index=blacken_oc_index+com_index;
             if len(blacken_oc_index)==0:
                 return Black_vertices;
             else:
                 Black_vertices=Black_vertices.union(set([("a",i) for i in blacken_oc_index]));
-                return gzerosgame(g,Black_vertices,B,oc_rule);                
+                return gzerosgame(g,Black_vertices,B,oc_rule);             
 
 def gZ_leq(graph, support=[], bannedset=[],i=None,oc_rule=False):
 	"""

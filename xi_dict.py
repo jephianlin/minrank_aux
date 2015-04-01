@@ -33,6 +33,23 @@ def has_SAP(A):
     else:
         return False;
         
+def ful_annihilator(A):
+    """
+    Input: a symmetric matrix A
+    Output: 0 if A has SAP; otherwise return the basis of ful_annihilators of A;
+    """
+    n=A.dimensions()[0];
+    AA=SAPmatrix(A);
+    ker=AA.right_kernel();
+    if ker.dimension()==0:
+        return 0;
+    else:
+        basis=[];
+        for v in ker.basis():
+            list_v=list(v);
+            basis.append(matrix(n,n,list_v));
+        return basis;
+
 def eigens(A):
     """
     Input: a matrix A
@@ -122,3 +139,16 @@ def find_ZFloor(g):
             try_lower=True;
             ZF+=-1;     
     return ZF+1;
+    
+def xi_ubd(g):
+    C=g.connected_components_subgraphs();
+    if len(C)==1:
+        ubd=find_ZFloor(g);
+        if g.is_tree():
+            ubd=min(ubd,2);
+        return ubd;            
+    else:
+        ubd=0;
+        for com in C:
+            ubd=max(ubd,xi_ubd(com));
+        return ubd;

@@ -22,12 +22,37 @@ def SAPmatrix(A):
         AA.append(row);
     return matrix(AA);
     
+def SAPreduced_matrix(A):
+    """
+    Input: a symmetric matrix A
+    Output: the reduced matrix for checking if A has SAP
+    """
+    if A.is_symmetric()==False:
+        raise ValueError, "Input matrix is not symmetric."
+    AA=[];
+    n=A.dimensions()[0];
+    nonedge=0;
+    for i in range(n):
+        for j in range(i+1,n):
+            if A[i][j]==0:
+                AA.append([0]*(n*n));
+                i_start=i*n;
+                j_start=j*n;
+                for k in range(n):
+                    AA[nonedge][i_start+k]=A[j][k];
+                    AA[nonedge][j_start+k]=A[i][k];
+                nonedge+=1;                    
+    return matrix(AA).transpose();
+
 def has_SAP(A):
     """
     Input: a symmetric matrix A
     Output: True if A has Strong Arnold Property; False if A does not.
     """
-    AA=SAPmatrix(A);
+    ##SAPreduced_matrix is faster than SAPmatrix
+    ##AA=SAPmatrix(A);
+    ##if AA.rank()==AA.dimensions()[1]:
+    AA=SAPreduced_matrix(A);
     if AA.rank()==AA.dimensions()[1]:
         return True;
     else:
@@ -152,3 +177,40 @@ def xi_ubd(g):
         for com in C:
             ubd=max(ubd,xi_ubd(com));
         return ubd;
+        
+##This function requires gzerosgame and find_gzfs functions in oc_diag_analysis.sage
+def SAPreduced_mr(g,non_singular=False):
+    n=g.order();
+    A=g.adjacency_matrix()-identity_matrix(n);
+    AA=SAPreduced_matrix(A);
+    ##rows should be n^2; cols should be number of nonedges
+    rows,cols=AA.dimensions();
+    ##Set X as -1~-rows and Y as 1~cols
+    X=[];
+    for i in range(1,rows+1):
+        X.append(-i);
+    Y=[];
+    for i in range(1,cols+1):
+        Y.append(i);
+    ##NOTE: the labeling of graphs start at 1 and -1, but not 0
+    ##      but the labeling of the matrix start at 0 for both rows and columns
+    SAP_g=Graph(0);
+    SAP_g.add_vertices(X);
+    SAP_g.add_vertices(Y);
+    ##setting edges and banned set
+    B=[];
+    for i in range(rows):
+        for j in range(cols):
+            if AA[i][j]!=0:
+                SAP_g.add_edge(-i-1,j+1);
+            if AA[i][j]==-1:
+                B.append((-i-1,j+1));
+    ##For debug
+    #show(AA);
+    #show(SAP_g);
+    #print B;
+    if non_singular==False:
+        return rows+cols-find_gZ(SAP_g, X, B);
+    if non_singular==True:
+        #print gzerosgame(SAP_g, X, B);
+        return len(gzerosgame(SAP_g, X, B))==rows+cols;

@@ -1,3 +1,20 @@
+def eigens_multi(A):
+    l=A.eigenvalues();
+    eigens={};
+    for i in l:
+        eigens[i]=0;
+    for i in l:
+        eigens[i]+=1;
+    return eigens;
+    
+def sort_dictionary(d):
+    l=d.keys();
+    l.sort();
+    #print l;
+    for key in l:
+        print "%s:%s"%(key,d[key]);
+    #print " ";
+
 def canonical_label( g6 ):
     import subprocess;
     sp=subprocess.Popen("nauty-labelg", shell=True,

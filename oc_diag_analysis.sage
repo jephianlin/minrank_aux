@@ -75,20 +75,19 @@ def gzerosgame(g,F=[],B=[],oc_rule=False):
                 Black_vertices=Black_vertices.union(set([("a",i) for i in blacken_oc_index]));
                 return gzerosgame(g,Black_vertices,B,oc_rule);             
 
-def gZ_leq(graph, support=[], bannedset=[],i=None,oc_rule=False):
+def gZ_leq(graph, support=[], bannedset=[],i=None,oc_rule=False,find_all=False):
 	"""
 	For a given graph with support and banned set, if there is a zero forcing set of size i then return it; otherwise return False.
-
 	Input:
 		graph: a simple graph
 		support: a list of vertices of g
 		bannedset: a list of tuples representing banned edges of graph
 		i: an integer, the function check gZ <= i or not
-
+                oc_rule: use oc_rule or not, default as False (not using)
+                find_all: return all possible zero forcing set if True; return one set if False (default)
 	Output:
 		if F is a zero forcing set of size i and support is a subset of F, then return F
 		False otherwise
-
 	Examples:
 		sage: gZ_leq(graphs.PathGraph(5),[],[],1)
 		set([0])
@@ -98,7 +97,6 @@ def gZ_leq(graph, support=[], bannedset=[],i=None,oc_rule=False):
                 sage: I=[];
                 sage: gZ_leq(tilde_bipartite(g,I),Y(g),[],3,oc_rule=True);
                 set([('b', 0), ('b', 2), ('b', 1)])
-
 	"""
 	if i < len(support):
 #		print 'i cannot less than the cardinality of support'
@@ -109,12 +107,22 @@ def gZ_leq(graph, support=[], bannedset=[],i=None,oc_rule=False):
 	for y in support:
 		VX.remove(y)
 	# VX is the vertices outside support now
-	for subset in Subsets(VX,j):
-		test_set=set(support).union(subset) # the set is tested to be a zero forcing set
-		outcome=gzerosgame(graph, test_set, bannedset,oc_rule)
-		if len(outcome)==order:
-			return test_set
-	return False
+        if find_all==False:
+        	for subset in Subsets(VX,j):
+        		test_set=set(support).union(subset) # the set is tested to be a zero forcing set
+        		outcome=gzerosgame(graph, test_set, bannedset,oc_rule)
+        		if len(outcome)==order:
+        			return test_set
+	if find_all==True:
+        	all_set=[];
+                for subset in Subsets(VX,j):
+        		test_set=set(support).union(subset) # the set is tested to be a zero forcing set
+        		outcome=gzerosgame(graph, test_set, bannedset,oc_rule)
+        		if len(outcome)==order:
+        			all_set.append(subset);
+                if all_set!=[]:
+                        return all_set;
+        return False;
 
 def find_gzfs(graph, support=[], bannedset=[], upper_bound=None, lower_bound=None, oc_rule=False):
 	"""

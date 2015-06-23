@@ -74,21 +74,6 @@ def ful_annihilator(A):
             list_v=list(v);
             basis.append(matrix(n,n,list_v));
         return basis;
-
-def eigens(A):
-    """
-    Input: a matrix A
-    Output: a dictionary with eigenvalue: algebraic multiplicity.
-    """
-    all_values=A.eigenvalues()
-    eigens={};
-    while all_values!=[]:
-        lam=all_values.pop();
-        if lam in eigens.keys():
-            eigens[lam]+=1;
-        else:
-            eigens[lam]=1;
-    return eigens
     
 def ZFloor_game(g,done,act,token,chron=False):
     """

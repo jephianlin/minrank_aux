@@ -1,4 +1,4 @@
-def show_small(g):
+def sshow(g):
     show(g,figsize=[2,2],vertex_labels=False,vertex_size=50);
     
 def empty_array(m,n):

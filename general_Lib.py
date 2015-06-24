@@ -1,3 +1,6 @@
+def show_small(g):
+    show(g,figsize=[2,2],vertex_labels=False,vertex_size=50);
+    
 def empty_array(m,n):
     """
     Input: int m,n;

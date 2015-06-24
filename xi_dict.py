@@ -150,6 +150,9 @@ def find_ZFloor(g):
             ZF+=-1;     
     return ZF+1;
     
+T3FamilyString=['C~', 'DFw','EBnW','F@QZo','G?Gisg','H??@qiK']
+T3Family=[Graph(stg) for stg in T3FamilyString];
+
 def xi_ubd(g):
     C=g.connected_components_subgraphs();
     if len(C)==1:
@@ -170,6 +173,13 @@ def xi_ubd(g):
         for com in C:
             ubd=max(ubd,xi_ubd(com));
         return ubd;
+
+def xi_lbd(g):
+    ###SUPER long...
+    for t in T3Family:
+        if has_minor(g,t):
+            return 3;
+    return 0;
         
 ##This function requires gzerosgame and find_gzfs functions in oc_diag_analysis.sage
 def SAPreduced_mr(g,non_singular=False):

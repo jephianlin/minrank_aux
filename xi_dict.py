@@ -154,7 +154,15 @@ def xi_ubd(g):
     C=g.connected_components_subgraphs();
     if len(C)==1:
         ubd=find_ZFloor(g);
+        e=g.size();
+        if g.is_bipartite():
+            print "bipartite"
+            ubd=min(ubd,int(-0.5+sqrt(2.25+2*e)));
+        else:
+            print "not bipartite"
+            ubd=min(ubd,int(-0.5+sqrt(0.25+2*e)));
         if g.is_tree():
+            print "tree"
             ubd=min(ubd,2);
         return ubd;            
     else:

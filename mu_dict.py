@@ -1,4 +1,4 @@
-print "---get_m"
+print "---get_mu_from_dict, has_minor, find_mu, etc."
 
 ## mu_dict contains graph6.string and it mu for graphs with at most 7 vertices.
 mu_dict={'FG_qw': 2, 'F@HI_': 2, 'F_LLg': 3, 'F?]rw': 3, 'FG?yo': 3, 'FR\\}w':

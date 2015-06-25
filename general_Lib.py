@@ -57,12 +57,13 @@ def sort_dictionary(d):
         print "%s:%s"%(key,d[key]);
     #print " ";
 
-def canonical_label( g6 ):
-    print "test"
+def naughy_label( g6 ):
+    ## Return the canonical label given by naughty instead of Sage.
+    ## Input should be a string.
     import subprocess;
     sp=subprocess.Popen("nauty-labelg", shell=True,
                               stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE, close_fds=True)
     return sp.communicate(input='{0}\n'.format(g6))[0][:-1]
 def canonical_copy( G ):
-    return Graph( canonical_label( G.graph6_string()))
+    return Graph( naughy_label( G.graph6_string()))

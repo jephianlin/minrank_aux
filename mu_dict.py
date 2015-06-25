@@ -1,8 +1,7 @@
-print "Codes for computing mu, or looking it up in mu_dic, a dictionary"
-print "containing the values of mu for graphs with at most 7 vertices."
+print "---get_m"
 
-## mu_dic contains graph6.string and it mu for graphs with at most 7 vertices.
-mu_dic={'FG_qw': 2, 'F@HI_': 2, 'F_LLg': 3, 'F?]rw': 3, 'FG?yo': 3, 'FR\\}w':
+## mu_dict contains graph6.string and it mu for graphs with at most 7 vertices.
+mu_dict={'FG_qw': 2, 'F@HI_': 2, 'F_LLg': 3, 'F?]rw': 3, 'FG?yo': 3, 'FR\\}w':
 4, 'FG]^g': 3, 'FGD\\o': 3, 'ENzw': 4, 'FHQ?w': 2, 'F?\\~_': 4, 'FB]uW':
 3, 'FGCWw': 3, 'F?Dlw': 2, 'F@Fmw': 3, 'F`L|w': 4, 'FPLYw': 3, 'FA]rw':
 3, 'F@\\zw': 4, 'FKNJw': 3, 'F@Q?w': 2, 'F?^~w': 4, 'FNz~w': 5, 'F?F~o':
@@ -212,9 +211,9 @@ mu_dic={'FG_qw': 2, 'F@HI_': 2, 'F_LLg': 3, 'F?]rw': 3, 'FG?yo': 3, 'FR\\}w':
 'FJ]}w': 4, 'FLh}w': 4, 'FGL[w': 3, 'F?Cxo': 3, 'FG?Ww': 2, 'F?GYw': 2,
 'F?lrg': 3, 'F?Ca?': 1, 'F_D|o': 3};
 
-def get_mu_from_dic(graph):
+def get_mu_from_dict(graph):
     """
-    For a given graph, look it up in mu_dic for its mu.
+    For a given graph, look it up in mu_dict for its mu.
     
     INPUT
     graph: a graph with at most 7 vertices
@@ -224,7 +223,7 @@ def get_mu_from_dic(graph):
     """
     h=graph.canonical_label();
     h_name=h.graph6_string();
-    return mu_dic[h_name];
+    return mu_dict[h_name];
 
 ## Forbidden minors for linklessly embeddable.
 PetersenFamily=graphs.petersen_family();

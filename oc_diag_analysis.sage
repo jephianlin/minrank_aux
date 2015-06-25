@@ -1,3 +1,5 @@
+print "---gZ_leq, find_gZ, find_EZ, diagonal_analysis, etc."
+
 def gzerosgame(g,F=[],B=[],oc_rule=False):
 	"""
 	Return the derived set for a given graph g with set of banned edges B and a initial set of vertices. The derived set is given by doing generalized zero forcing process. That is, if y is the only white neighbor of x and xy is not banned, then x could force y into black.

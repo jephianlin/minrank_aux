@@ -1,3 +1,5 @@
+print "---sshow, empty_array, all_one_matrix, elementary_matrix, eigens_multi, sort_dictionary, etc."
+
 def sshow(g):
     show(g,figsize=[2,2],vertex_labels=False,vertex_size=50);
     
@@ -56,6 +58,7 @@ def sort_dictionary(d):
     #print " ";
 
 def canonical_label( g6 ):
+    print "test"
     import subprocess;
     sp=subprocess.Popen("nauty-labelg", shell=True,
                               stdin=subprocess.PIPE, stdout=subprocess.PIPE,

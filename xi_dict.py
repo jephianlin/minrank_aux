@@ -1,3 +1,5 @@
+print "---SAPreduced_matrix, has_SAP, find_ZFloor, Zsap, etc."
+
 def SAPmatrix(A):
     """
     Input: a symmetric matrix A

@@ -32,6 +32,15 @@ def elementary_matrix(i,j,m,n=None):
     a[i*n+j]=1;
     return matrix(m,a);
 
+def latex_matrix(A):
+    m,n=A.dimensions();
+    print "\\begin{bmatrix}"
+    for i in range(m):
+        for j in range(n-1):
+            print A[i][j], "&",;
+        print A[i][n-1], "\\\\";
+    print "\\end{bmatrix}"
+
 def eigens_multi(A):
     """
     Input: matrix A;

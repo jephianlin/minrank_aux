@@ -104,6 +104,16 @@ def distance_decom(g):
         decom.append(matrix(DD[i]));
     return decom;
     
+def commutative_family(mtxs):
+    ## import as list;
+    n=len(mtxs);
+    commu=True;
+    for pair in Combinations(range(n),2):
+        if mtxs[pair[0]]*mtxs[pair[1]]!=mtxs[pair[1]]*mtxs[pair[0]]:
+            commu=False;
+            break;
+    return commu;    
+    
 def similar(A,Q):
     ## input A, Q and output Q^-1AQ
     return Q.inverse()*A*Q;

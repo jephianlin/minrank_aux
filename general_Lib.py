@@ -2,6 +2,10 @@ print "---sshow, empty_array, all_one_matrix, elementary_matrix, eigens_multi, s
 
 def sshow(g):
     show(g,figsize=[2,2],vertex_labels=False,vertex_size=50);
+
+#######
+#Matrices
+#######
     
 def empty_array(m,n):
     """
@@ -41,6 +45,22 @@ def latex_matrix(A):
         print A[i][n-1], "\\\\";
     print "\\end{bmatrix}"
 
+def distinct_eigens(g):
+    return len(set(g.distance_matrix().eigenvalues()));
+
+def inertia(D):
+    egv=D.eigenvalues();
+    n=len(egv);
+    p=0;
+    m=0;
+    z=0;
+    for i in range(n):
+        if egv[i]<0:
+            m+=1;
+        if egv[i]>0:
+            p+=1;
+    return [p,m,z];
+
 def eigens_multi(A):
     """
     Input: matrix A;
@@ -66,6 +86,33 @@ def sort_dictionary(d):
         print "%s:%s"%(key,d[key]);
     #print " ";
 
+def distance_decom(g):
+    n=g.order();
+    diam=g.diameter();
+    D=g.distance_matrix();
+    DD={};
+    for i in range(0,diam+1):
+        DD[i]=[];
+        for j in range(n):
+            DD[i].append([0]*n);
+    for i in range(n):
+        for j in range(n):
+            dist=D[i][j];
+            DD[dist][i][j]=1;
+    decom=[];
+    for i in range(0,diam+1):
+        decom.append(matrix(DD[i]));
+    return decom;
+    
+def similar(A,Q):
+    ## input A, Q and output Q^-1AQ
+    return Q.inverse()*A*Q;
+
+
+#######
+#Label
+#######
+
 def naughy_label( g6 ):
     ## Return the canonical label given by naughty instead of Sage.
     ## Input should be a string.
@@ -76,3 +123,42 @@ def naughy_label( g6 ):
     return sp.communicate(input='{0}\n'.format(g6))[0][:-1]
 def canonical_copy( G ):
     return Graph( naughy_label( G.graph6_string()))
+
+#######
+#Building Graphs
+#######
+
+def Lollipop(k,l):
+    g=graphs.CompleteGraph(k);
+    for i in range(l):
+        g.add_vertex(k+i);
+        g.add_edge(k+i,k+i-1);
+    return g;
+
+def ttt(n):
+    l=[2]*n;
+    l[0]=3;
+    l[n-1]=3;
+    return l;
+
+def caterpillar(n,l):
+    g=graphs.PathGraph(n);
+    for i in range(n):
+        for j in range(l[i]):
+            g.add_vertex((i,j));
+            g.add_edge(i,(i,j));
+    return g;
+    
+#######
+#Testing Graphs
+#######
+
+def is_CompleteBipartite(g):
+    h=g.complement();
+    com_sub=h.connected_components_subgraphs();
+    if len(com_sub)!=2:
+        return False;
+    for com in com_sub:
+        if min(com.degree())<com.order()-1:
+            return False;
+    return True;

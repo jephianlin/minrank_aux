@@ -163,6 +163,11 @@ def caterpillar(n,l):
 #Testing Graphs
 #######
 
+def is_CompleteGraph(g):
+    if min(g.degree_sequence())==g.order()-1:
+        return True;
+    return False;
+
 def is_CompleteBipartite(g):
     h=g.complement();
     com_sub=h.connected_components_subgraphs();
@@ -172,3 +177,11 @@ def is_CompleteBipartite(g):
         if min(com.degree())<com.order()-1:
             return False;
     return True;
+
+def is_kStar(g):
+    gbar=g.complement();
+    V=copy(gbar.vertices());
+    for v in V:
+        if gbar.degree(v)==0:
+            gbar.delete_vertex(v);
+    return is_CompleteGraph(gbar);

@@ -45,8 +45,11 @@ def latex_matrix(A):
         print A[i][n-1], "\\\\";
     print "\\end{bmatrix}"
 
-def distinct_eigens(g):
-    return len(set(g.distance_matrix().eigenvalues()));
+def distinct_eigens(A,dgable=True):
+    if dgable==True:
+        return A.minimal_polynomial().degree();
+    if dgable==False:
+        return len(set(g.distance_matrix().eigenvalues()));
 
 def inertia(D):
     egv=D.eigenvalues();

@@ -188,3 +188,9 @@ def is_kStar(g):
         if gbar.degree(v)==0:
             gbar.delete_vertex(v);
     return is_CompleteGraph(gbar);
+
+def delta(g):
+    return min(g.degree_sequence());
+    
+def Delta(g):
+    return max(g.degree_sequence());

@@ -4,6 +4,34 @@ def sshow(g):
     show(g,figsize=[2,2],vertex_labels=False,vertex_size=50);
 
 #######
+#Predictions
+#######
+
+def lagrange_prediction(a,b,trust=3,variable="c"):
+    """
+    Input: two lists a and b.
+    Output: the prediction relation of b as a function of a.
+    Description: the algorithm will find f_i as the lagrange_polynomial of the first i pairs. 
+    When f_i remains the same as i increase trust times, the algorithm stops and return f_i.
+    """
+    n=min(len(a),len(b));
+    R=PolynomialRing(QQ,variable);
+    data=[];
+    f=0;
+    believe=0;
+    for i in range(n):
+        data.append((a[i],b[i]));
+        new_f=R.lagrange_polynomial(data);
+        if f!=new_f:
+            f=new_f;
+        else:
+            believe+=1;
+        if believe>=trust:
+            return f;
+    verbose("Not enough data or un-polynomial-related data.",level=2); ##use set_verbose(2) to see this line.
+    return f;
+
+#######
 #Matrices
 #######
     

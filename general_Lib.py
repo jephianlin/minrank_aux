@@ -1,7 +1,9 @@
 print "---sshow, empty_array, all_one_matrix, elementary_matrix, eigens_multi, sort_dictionary, etc."
 
-def sshow(g):
-    g.show(figsize=[2,2],vertex_labels=False,vertex_size=50);
+def sshow(g,stg=None):
+    if stg==None:
+        stg=g.graph6_string();
+    g.show(figsize=[2,2],vertex_labels=False,vertex_size=50,title=stg);
 
 #######
 #Predictions

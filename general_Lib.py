@@ -3,7 +3,7 @@ print "---sshow, empty_array, all_one_matrix, elementary_matrix, eigens_multi, s
 def sshow(g,stg=None):
     if stg==None:
         stg=g.graph6_string();
-    g.show(figsize=[2,2],vertex_labels=False,vertex_size=50,title=stg);
+    g.show(figsize=[2,2],vertex_labels=False,vertex_size=50,title="%s: %s"%(g.order(),stg));
 
 #######
 #Predictions

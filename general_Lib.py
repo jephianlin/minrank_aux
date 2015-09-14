@@ -171,6 +171,23 @@ def canonical_copy( G ):
 #Building Graphs
 #######
 
+def contract_edge(gph,e):
+    if gph.has_edge(e)==False:
+        raise ValueError, "not an edge";
+    ngh1=gph.neighbors(e[0]);
+    ngh2=gph.neighbors(e[1]);
+    h=gph.copy();
+    h.delete_vertices([e[0],e[1]]);
+    try_again=True;
+    i=0;
+    while try_again:
+        i+=1;
+        if h.has_vertex(i)==False:
+            h.add_vertex(i);
+            try_again=False;
+    h.add_edges([(i,j) for j in set(ngh1).union(set(ngh2)).difference(set([e[0],e[1]]))]);
+    return h;
+
 def Lollipop(k,l):
     g=graphs.CompleteGraph(k);
     for i in range(l):

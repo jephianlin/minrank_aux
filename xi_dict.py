@@ -225,6 +225,7 @@ def Zsap(g,rule="buy_vertex"):
     Input:
         g simple graph;
         rule "nonsingular" only test if Zsap(g,rule="one_coin_edge")==0 or not;
+             "nonsingular_nu" is the nu version of "nonsingular";
              "one_coin_edge" means doing regular zero forcing on the aux graph;
              "buy_vertex" means using 1 coin to buy all edges incident to a certain vertex;
              "buy_edge" means using 2 coins to buy all edges incident to a certain edge;
@@ -259,6 +260,8 @@ def Zsap(g,rule="buy_vertex"):
     #show(h,figsize=[10,10],vertex_size=50);
     if rule=="nonsingular":
         return len(gzerosgame(h,all_pairs,B))==nh;            
+    if rule=="nonsingular_nu":
+        return len(gzerosgame(h,all_pairs,[]))==nh;   
     if rule=="one_coin_edge":
         return find_gZ(h,all_pairs,B)-n^2;
     if rule=="buy_vertex":

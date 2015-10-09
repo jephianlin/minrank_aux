@@ -3,7 +3,8 @@ def Zsap(g,rule="buy_vertex"):
     Input:
         g simple graph; ##should be relabeled by 0,1, ..., n-1
         rule "nonsingular" only test if Zsap(g,rule="one_coin_edge")==0 or not;
-             "nonsingular_nu" is the nu version of "nonsingular";
+             "nonsingular_nu" is checking if Zsap^+=0 or not;
+             "nonsingular_E" is checking if Zhat_sap=0 or not;
              "one_coin_edge" means doing regular zero forcing on the aux graph;
              "buy_vertex" means using 1 coin to buy all edges incident to a certain vertex;
              "buy_edge" means using 2 coins to buy all edges incident to a certain edge;

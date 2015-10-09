@@ -165,7 +165,7 @@ def has_SSP(A):
     
 def Zssp(g,rule="nonsingular"):
     n=g.order();
-    A=g.adjacency_matrix()-identity_matrix(n);
+    A=g.adjacency_matrix()-diagonal_matrix([2*i for i in range(1,n+1)]);
     C=SSPmatrix(A);
     row_num,col_num=C.dimensions();
     h=Graph(0); #build the base graph
@@ -180,6 +180,6 @@ def Zssp(g,rule="nonsingular"):
         for j in range(col_num):
             if C[i,j]!=0:
                 h.add_edge(i+1,-j-1);
-                if C[i,j]==-1:
+                if C[i,j]%2==0:
                     B.append((i+1,-j-1));
     return h.order()==len(gzerosgame(h,F,B));

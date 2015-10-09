@@ -1,7 +1,7 @@
 def Zsap(g,rule="buy_vertex"):
     """
     Input:
-        g simple graph;
+        g simple graph; ##should be relabeled by 0,1, ..., n-1
         rule "nonsingular" only test if Zsap(g,rule="one_coin_edge")==0 or not;
              "nonsingular_nu" is the nu version of "nonsingular";
              "one_coin_edge" means doing regular zero forcing on the aux graph;
@@ -94,6 +94,25 @@ def Zsap(g,rule="buy_vertex"):
                 if len(gzerosgame(h,F,B))==nh:
                     #return z;
                     return z,blue;
+    if rule=="nonsingular_E":
+        B_sort={};
+        for i in range(n):
+            B_sort[i]=[];
+        for nonyee in nonedges:
+            i,j=nonyee;
+            B_sort[i].append(("%s;%s"%(j,i),nonyee));
+            B_sort[j].append(("%s;%s"%(i,j),nonyee));
+        for coms in Combinations(range(n)): #make coms zero <-> delete edges of coms from h
+            Eh=h.copy();
+            for i in coms:
+                Eh.delete_edges(B_sort[i]);
+            #if coms==[1,2]:
+            #    Eh.show(vertex_size=50,figsize=[8,8])
+            #    print all_pairs;
+            if len(gzerosgame(Eh,all_pairs,[]))!=nh:
+                #print coms;
+                return False;
+        return True;
                     
 def SSPmatrix(A):
     """

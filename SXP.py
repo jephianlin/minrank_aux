@@ -3,7 +3,7 @@ def Zsap(g,rule="buy_vertex"):
     Input:
         g simple graph; ##should be relabeled by 0,1, ..., n-1
         rule "nonsingular" only test if Zsap(g,rule="one_coin_edge")==0 or not;
-             "nonsingular_nu" is checking if Zsap^\ell=0 or not;
+             "nonsingular_ell" is checking if Zsap^\ell=0 or not;
              "nonsingular_E" is checking if Zhat_sap=0 or not;
              "one_coin_edge" means doing regular zero forcing on the aux graph;
              "buy_vertex" means using 1 coin to buy all edges incident to a certain vertex;
@@ -39,7 +39,7 @@ def Zsap(g,rule="buy_vertex"):
     #show(h,figsize=[10,10],vertex_size=50);
     if rule=="nonsingular":
         return len(gzerosgame(h,all_pairs,B))==nh;            
-    if rule=="nonsingular_nu":
+    if rule=="nonsingular_ell":
         return len(gzerosgame(h,all_pairs,[]))==nh;   
     if rule=="one_coin_edge":
         return find_gZ(h,all_pairs,B)-n^2;

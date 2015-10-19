@@ -36,7 +36,7 @@ def Zsap_game(g,B,rule="CCRZ",oc_rule="False"):
                         queue.append(v);
                         whole_loop=True; #if regular_loop found something, open whole_loop;
                 active[u]=0;
-            except:
+            except IndexError:
                 regular_loop=False;
         if oc_rule:
             oc_loop=True;

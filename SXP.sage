@@ -1,3 +1,107 @@
+print "This code contains extra copy of Z_game, Zell_game, Zplus_game, for the completeness of Zsap_game program.";
+
+###extra copy of Z_game, Zell_game, Zplus_game.
+def Z_game(g,B,ban=[]): ##vertices in ban cannot make a force, but is still a white neighbor if white.
+    V=g.vertices();
+    white_neighbors={};
+    white_numbers={};
+    for v in V:
+        nbh=g.neighbors(v);
+        for b in B:
+            try:
+                nbh.remove(b);
+            except ValueError:
+                pass;
+        white_neighbors[v]=nbh;
+        white_numbers[v]=len(nbh);
+    queue=copy(B);
+    derived_set=copy(B);
+    whole_loop=True;
+    while whole_loop:
+        try:
+            v=queue[0];
+            queue.remove(v);
+            if v not in ban and white_numbers[v]==1:
+                u=white_neighbors[v][0]; #the only white neighbor
+                derived_set.append(u);
+                if white_numbers[u]==1:
+                    queue.append(u);
+                u_nbr=g.neighbors(u);
+                for w in u_nbr:
+                    white_neighbors[w].remove(u);
+                    white_numbers[w]+=-1;
+                    if w in derived_set and white_numbers[w]==1:
+                        queue.append(w);
+        except IndexError:
+            whole_loop=False;
+    return derived_set;
+    
+def Zell_game(g,B,ban=[]): ##every non-isolated vertex can force itself if no other white neighbors.
+    h=g.copy();
+    for v in g.vertices(): ##those isolated vertices are not going to change the derived set.
+        if h.degree(v)==0:
+            h.delete_vertex(v);
+    V=h.vertices();
+    white_neighbors={};
+    white_numbers={};
+    for v in V:
+        nbh=h.neighbors(v);
+        nbh.append(v);
+        for b in B:
+            try:
+                nbh.remove(b);
+            except ValueError:
+                pass;
+        white_neighbors[v]=nbh;
+        white_numbers[v]=len(nbh);
+    queue=copy(V);
+    derived_set=copy(B);
+    whole_loop=True;
+    while whole_loop:
+        try:
+            v=queue[0];
+            queue.remove(v);
+            if v not in ban and white_numbers[v]==1:
+                u=white_neighbors[v][0]; #the only white neighbor
+                derived_set.append(u);
+                u_nbr=h.neighbors(u);
+                u_nbr.append(u);
+                for w in u_nbr:
+                    white_neighbors[w].remove(u);
+                    white_numbers[w]+=-1;
+                    if white_numbers[w]==1:
+                        queue.append(w);
+        except IndexError:
+            whole_loop=False;
+    return derived_set;
+
+def Zplus_game(g,B):
+    white_graph=g.copy();
+    derived_set=copy(B);
+    for b in derived_set:
+        white_graph.delete_vertex(b);
+    whole_loop=True;
+    while whole_loop: 
+        whole_loop=False;  ##open again only when something found.
+        whole_extra_B=[];
+        partition=white_graph.connected_components();
+        for com in partition:
+            considered_set=copy(com);
+            for v in derived_set:
+                considered_set.append(v);
+            considered_graph=g.subgraph(considered_set);
+            extra_B=Z_game(considered_graph,derived_set);
+            for v in derived_set:
+                extra_B.remove(v);
+            for v in extra_B:
+                whole_loop=True;
+                whole_extra_B.append(v);
+        #update new derived_set and new white_graph.
+        for v in whole_extra_B:
+            derived_set.append(v);
+            white_graph.delete_vertex(v);
+    return derived_set;
+
 def Zsap_game(g,B,rule="CCRZ",oc_rule="False"):
     active={}; 
     #for each vertex i, assign a value of 1,0. 
@@ -70,7 +174,7 @@ def find_Zsap(g,rule="CCRZ",oc_rule=False,get_value=False):
     if get_value==True:
         print "Not yet programmed";
 
-def Zsap(g,rule="buy_vertex"):
+def Zsap_test(g,rule="buy_vertex"): #This is an old code, without Zsap^+, but with nonsingular_E, one_coin_edge, buy_edge.
     """
     Input:
         g simple graph; ##should be relabeled by 0,1, ..., n-1
@@ -235,7 +339,7 @@ def has_SSP(A):
     SSP_sys=SSPmatrix(A);
     return rank(SSP_sys)==SSP_sys.dimensions()[1];
     
-def Zssp(g,rule="nonsingular"):
+def find_Zssp(g,rule="nonsingular"):
     n=g.order();
     A=g.adjacency_matrix()-diagonal_matrix([2*i for i in range(1,n+1)]);
     C=SSPmatrix(A);

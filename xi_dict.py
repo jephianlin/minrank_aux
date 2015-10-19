@@ -179,7 +179,7 @@ def xi_ubd(g):
 def xi_lbd(g):
     ###SUPER long...
     lbd=1;
-    if g.is_forest() and max(g.degree_sequence())==3:
+    if g.is_forest()==False or max(g.degree_sequence())>=3:
         lbd=2;
     for t in T3Family:
         if has_minor(g,t):

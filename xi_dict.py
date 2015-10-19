@@ -178,10 +178,13 @@ def xi_ubd(g):
 
 def xi_lbd(g):
     ###SUPER long...
+    lbd=1;
+    if g.is_forest() and max(g.degree_sequence())==3:
+        lbd=2;
     for t in T3Family:
         if has_minor(g,t):
             return 3;
-    return 0;
+    return lbd;
         
 ##This function requires gzerosgame and find_gzfs functions in oc_diag_analysis.sage
 def SAPreduced_mr(g,non_singular=False):

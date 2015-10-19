@@ -1,4 +1,4 @@
-def Zsap_game(g,B,rule="regular",oc_rule="False"):
+def Zsap_game(g,B,rule="CCRZ",oc_rule="False"):
     active={}; 
     #for each vertex i, assign a value of 1,0. 
     #1 means l(g,i) can possibly make a force, while 0 means that is impossible.
@@ -22,7 +22,12 @@ def Zsap_game(g,B,rule="regular",oc_rule="False"):
                     for v in V:
                         if (u,v) in derived_set or (v,u) in derived_set:
                             local_B.append(v);
-                    extra_B=list(gzerosgame(g,local_B));
+                    if rule=="CCRZ":
+                        extra_B=list(Z_game(g,local_B));
+                    if rule=="CCRZell":
+                        extra_B=list(Zell_game(g,local_B));
+                    if rule=="CCRZplus":
+                        extra_B=list(Zplus_game(g,local_B));
                     for v in local_B:
                         extra_B.remove(v);
                     for v in extra_B:
@@ -54,7 +59,7 @@ def Zsap_game(g,B,rule="regular",oc_rule="False"):
             whole_loop=False; #if oc_rule doesn't apply, then just run one whole loop.
     return derived_set;
 
-def find_Zsap(g,rule="regular",oc_rule=False,get_value=False):
+def find_Zsap(g,rule="CCRZ",oc_rule=False,get_value=False):
     mbar=g.complement().size();
     if get_value==False:
         derived_set=Zsap_game(g,[],rule,oc_rule);

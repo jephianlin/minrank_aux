@@ -102,13 +102,18 @@ def Zplus_game(g,B):
             white_graph.delete_vertex(v);
     return derived_set;
 
-def Zsap_game(g,B,rule="CCRZ",oc_rule="False"):
+def Zsap_game(g,B,rule="CCRZ",oc_rule=False,banned_dict={}): 
+    #banned_dict is of the form i:ban, where ban is the set of banned vertices in l(g,i) in whichever rule.
+    #banned_dict doesn't work for CCRZplus.
     active={}; 
     #for each vertex i, assign a value of 1,0. 
     #1 means l(g,i) can possibly make a force, while 0 means that is impossible.
     V=g.vertices();
     for v in V:
         active[v]=1;
+    for v in V:  #complete banned_dict by empty sets.
+        if v not in banned_dict.keys(): 
+            banned_dict[v]=[];
     queue=[v for v in V] #the queue for checking local games.
     derived_set=copy(B); #if not use copy, B will be changed
     whole_loop=True;        
@@ -120,6 +125,7 @@ def Zsap_game(g,B,rule="CCRZ",oc_rule="False"):
                 u=queue[0]; #starting from the second whloe loop, queue is given by oc loop.
                 queue.remove(u);
                 if active[u]==1:
+                    #consider the local game l(g,u,rule)
                     #local_B contains all the neighbors of u, u itself, and all blue non-neighbor of u;
                     local_B=g.neighbors(u);
                     local_B.append(u);
@@ -127,9 +133,9 @@ def Zsap_game(g,B,rule="CCRZ",oc_rule="False"):
                         if (u,v) in derived_set or (v,u) in derived_set:
                             local_B.append(v);
                     if rule=="CCRZ":
-                        extra_B=list(Z_game(g,local_B));
+                        extra_B=list(Z_game(g,local_B,banned_dict[u]));
                     if rule=="CCRZell":
-                        extra_B=list(Zell_game(g,local_B));
+                        extra_B=list(Zell_game(g,local_B,banned_dict[u]));
                     if rule=="CCRZplus":
                         extra_B=list(Zplus_game(g,local_B));
                     for v in local_B:
@@ -171,8 +177,54 @@ def find_Zsap(g,rule="CCRZ",oc_rule=False,get_value=False):
             return True;
         else:
             return False;
-    if get_value==True:
-        print "Not yet programmed";
+    if get_value=="edge":  ##Super slow, since too many nonedges.
+        Ebar=g.complement().edges(labels=False);
+        mbar=len(Ebar);
+        lbd=-1;
+        ubd=mbar;
+        while ubd-lbd>=2: ##apply random algorithm;
+            guess=random.choice(range(lbd+1,ubd)); ##take an interior point in [lbd,ubd];
+            found=False;
+            for B in Combinations(Ebar,guess):
+                if mbar==len(Zsap_game(g,B,rule,oc_rule)):
+                    found=True;
+                    break;
+            if found:
+                ubd=guess;
+            else:
+                lbd=guess;
+        return ubd;
+    if get_value=="vertex":
+        gbar=g.complement();
+        Ebar=gbar.edges(labels=False);
+        V=g.vertices();
+        mbar=len(Ebar);
+        n=g.order();
+        lbd=-1;
+        ubd=n;
+        while ubd-lbd>=2: ##apply random algorithm;
+            guess=random.choice(range(lbd+1,ubd)); ##take an interior point in [lbd,ubd];
+            found=False;
+            for sub in Combinations(V,guess):
+                #build initial blue nonedges B;
+                B=[];
+                for ebar in Ebar:
+                    i,j=ebar;
+                    if i in sub or j in sub:
+                        B.append(ebar);
+                #build banned_dict;
+                banned_dict={v:[] for v in V};
+                for j in sub: ##(i:j -> k) is banned if j is in sub and {i,j} is nonedge.
+                    for i in gbar.neighbors(j):
+                        banned_dict[i].append(j);
+                if mbar==len(Zsap_game(g,B,rule,oc_rule,banned_dict)):
+                       found=True;
+                       break;
+            if found:
+                ubd=guess;
+            else:
+                lbd=guess;
+        return ubd;        
 
 def Zsap_test(g,rule="buy_vertex"): #This is an old code, without Zsap^+, but with nonsingular_E, one_coin_edge, buy_edge.
     """

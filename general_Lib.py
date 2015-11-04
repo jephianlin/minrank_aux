@@ -1,4 +1,4 @@
-print "---sshow, empty_array, all_one_matrix, elementary_matrix, eigens_multi, sort_dictionary, etc."
+print "---sshow, empty_array, all_one_matrix, elementary_matrix, eigens_multi, sort_dictionary, has_minor, etc."
 
 import random; #If this line is not included, random.choice should be changed to choice.
 

@@ -1,4 +1,4 @@
-print "---get_mu_from_dict, has_minor, find_mu, etc."
+print "---get_mu_from_dict, find_mu, etc."
 
 ## mu_dict contains graph6.string and it mu for graphs with at most 7 vertices.
 mu_dict={'FG_qw': 2, 'F@HI_': 2, 'F_LLg': 3, 'F?]rw': 3, 'FG?yo': 3, 'FR\\}w':
@@ -227,16 +227,6 @@ def get_mu_from_dict(graph):
 
 ## Forbidden minors for linklessly embeddable.
 PetersenFamily=graphs.petersen_family();
-
-## This paragraph comes from http://ask.sagemath.org/question/
-## 8112/graph-minor-code-too-slow-in-certain-situations-sage-46/
-def has_minor(G, H):
-    try:
-        m = G.minor(H)
-        return True
-    except ValueError: 
-        return False
-
 
 def find_mu(g):
     """

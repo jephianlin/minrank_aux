@@ -1,5 +1,7 @@
 print "---sshow, empty_array, all_one_matrix, elementary_matrix, eigens_multi, sort_dictionary, etc."
 
+import random; #If this line is not included, random.choice should be changed to choice.
+
 def sshow(g,stg=None):
     if stg==None:
         stg=g.graph6_string();
@@ -151,6 +153,18 @@ def similar(A,Q):
     ## input A, Q and output Q^-1AQ
     return Q.inverse()*A*Q;
 
+#######
+#Minor
+#######
+
+## This paragraph comes from http://ask.sagemath.org/question/
+## 8112/graph-minor-code-too-slow-in-certain-situations-sage-46/
+def has_minor(G, H):
+    try:
+        m = G.minor(H)
+        return True
+    except ValueError: 
+        return False
 
 #######
 #Label

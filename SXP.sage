@@ -135,7 +135,7 @@ def Zplus_game(g,B):
             white_graph.delete_vertex(v);
     return derived_set;
 
-def Zsap_game(g,B,rule="CCRZ",oc_rule=False,banned_dict={}): 
+def Zsap_game(g,B,rule="CCRZ",oc_rule=True,banned_dict={}): 
     """
     Input:
         g: a simple graph
@@ -220,7 +220,7 @@ def Zsap_game(g,B,rule="CCRZ",oc_rule=False,banned_dict={}):
             whole_loop=False;
     return derived_set;
 
-def find_Zsap(g,rule="CCRZ",oc_rule=False,get_value=False):
+def find_Zsap(g,rule="CCRZ",oc_rule=True,get_value=False):
     """
     Input:
         g: a simple graph

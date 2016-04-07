@@ -255,3 +255,68 @@ def delta(g):
     
 def Delta(g):
     return max(g.degree_sequence());
+    
+#######
+#Not in good condition
+#######
+
+def eta(g): 
+    """
+    return the Hadwiger number of g.
+    """
+    n=g.order();
+    w=g.clique_number();
+    eta=w;
+    for i in range(w+1,n):
+        if has_minor(g,graphs.CompleteGraph(i)):
+            eta=i;
+        else:
+            break;
+    return eta;
+    
+def cover_matrix(m_cover,m,m_vec=None,n_cover=None,n=None,n_vec=None):
+    """
+    return a mxn matrix with m_vec*n_vec^T embedded in the m_cover*n_cover positions.
+    m_vec is the all one list by default.
+    n-related variables are by default symmetric to m-related variables.
+    """
+    if n_cover==None:
+        n_cover=m_cover;
+    if n==None:
+        n=m;
+    if m_vec==None:
+        m_vec=[1]*len(m_cover)        
+    if n_vec==None:
+        n_vec=m_vec;
+    if len(n_cover)!=len(n_vec):
+        print "Need to specify n_vec."
+    A=matrix(m,[0]*(m*n));
+    for i in range(len(m_cover)):
+        for j in range(len(n_cover)):
+            A[m_cover[i],n_cover[j]]=m_vec[i]*n_vec[j];
+    return A;
+    
+def calG(A,type="simple",loop=False):
+    """
+    return the corresponding graph. 
+    type can be "simple", "digraph", or "bipartite". 
+    loops will be ignored by default, unless loop is set to be True.
+    """
+    m,n=A.dimensions();
+    if m!=n:
+        print "input matrix is not square";
+        return 0;
+    new_A=copy(A);
+    for i in range(n):
+        for j in range(m):
+            if A[i,j]!=0:
+                new_A[i,j]=1;
+    if loop==False:
+        for i in range(n):
+            new_A[i,i]=0;
+    if type=="simple":
+        return Graph(new_A);
+    if type=="digraph":
+        return DiGraph(new_A);
+    if type=="bipartite":
+        return BipartiteGraph(new_A);

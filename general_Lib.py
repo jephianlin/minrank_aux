@@ -96,6 +96,18 @@ def inertia(D):
             p+=1;
     return [p,m,z];
 
+def list_to_multi(l):
+    """
+    Input: list l;
+    Output: the dictionary of {values: number of occurrence};
+    """
+    newdict={};
+    for i in l:
+        newdict[i]=0;
+    for i in l:
+        newdict[i]+=1;
+    return newdict;
+    
 def eigens_multi(A):
     """
     Input: matrix A;

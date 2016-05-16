@@ -57,7 +57,6 @@ def gzerosgame(g,F=[],B=[],oc_rule=False):
                 V_com=com.vertices();
                 for v in V_com:
                     i=v[1];
-                    print v,i
                     if i not in vtx_involved:
                         vtx_involved.append(i);
                 if min(com.degree())==2 and max(com.degree())==2 and len(vtx_involved)%2==1:

@@ -53,7 +53,15 @@ def gzerosgame(g,F=[],B=[],oc_rule=False):
             h=g.subgraph(induce);
             blacken_oc_index=[];
             for com in h.connected_components_subgraphs():
-                if min(com.degree())==2 and max(com.degree())==2 and (com.order()/2)%2==1:
+                vtx_involved=[];
+                V_com=com.vertices();
+                for v in V_com:
+                    i=v[1];
+                    print v,i
+                    if i not in vtx_involved:
+                        vtx_involved.append(i);
+                if min(com.degree())==2 and max(com.degree())==2 and len(vtx_involved)%2==1:
+                #if min(com.degree())==2 and max(com.degree())==2 and (com.order()/2)%2==1:
                     No_banned=True;
                     ## com cannot have banned edge
                     for b in B:

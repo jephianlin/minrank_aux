@@ -371,6 +371,40 @@ def find_loopedZ(g,I,J=[],oc_rule=False):
         
     """
     return find_gZ(tilde_bipartite(g,I+J),Y(g),bridged_edges(J),None,None,oc_rule)-g.order();
+
+def nonsingular_graph(g):
+    """
+    Return True if g is nonsingular, otherwise return False.  
+    The algorithm keeps deleting a leaf and its only neighbor.  If the final graph 
+    is a disjoint union of odd cycles, then g is nonsingular.
+    
+    Input:
+        g: a simple graph (considered as no loop)
+    Output:
+        True or False
+    """
+    ##This function should be equivalent to gZ_leq(tilde_bipartite(g,[]), Y(g), [],len(g),oc_rule=True);
+    if g.order()==0:
+        return True;
+    com=g.connected_components_subgraphs()[0]
+    V=com.vertices();
+    ##If has a leaf, then delete the leaf and its neighbor.
+    for v in V:
+        if g.degree(v)==1:
+            u=g.neighbors(v)[0];
+            h=g.copy();
+            h.delete_vertex(v);
+            h.delete_vertex(u);
+            return nonsingular_graph(h);
+    ##If no leaf, check odd cycle or not.
+    deg_seq=com.degree_sequence();
+    if max(deg_seq)==2 and min(deg_seq)==2 and com.order()%2==1:
+        h=g.copy();
+        for v in V:
+            h.delete_vertex(v);
+        return nonsingular_graph(h);
+    else:
+        return False;
     
 def diagonal_analysis(g,Z=None,oc_rule=False):
     """

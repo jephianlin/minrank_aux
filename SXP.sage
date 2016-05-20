@@ -476,3 +476,95 @@ def find_Zssp(g,rule="nonsingular"):
                 if C[i,j]%2==0:
                     B.append((i+1,-j-1));
     return h.order()==len(gzerosgame(h,F,B));
+
+def ZplusFloor_game(g,done,act,token):
+    """
+    Input:
+        g: a simple graph
+        done: list of blue vertices that made their force (they shouldn't have white neighbors)
+        act: list of blue vertices that make no force yet
+        token: number of "free" blue vertices that can make a hop
+    Output:
+        if "act" together with "token" number of free blue vertices is a zero forcing set,
+         then return True. Otherwise, return False.
+        **ZplusFloor_game(g,[],[],k) is returning if ZFloor(g)<=k or not.
+    """
+    #recursive algorithm is implemented, so each graph and each list should be copied
+    h=g.copy() 
+    this_done=[];
+    this_act=[];
+    for v in done:
+        h.delete_vertex(v);
+        this_done.append(v);
+    for v in act:
+        this_act.append(v);        
+    #delete every edges between this_act.
+    for u,w in Combinations(this_act,2):
+        h.delete_edge(u,w);
+    #Do one round of propagation according to CCR-Z
+    #The CCR-Zplus is implement at the recursive step
+    again=True;
+    while again:
+        again=False;
+        for v in this_act:
+            if h.degree(v)==1: #this vertex can make CCR-Z. After that it is done, and cannot make a hope.
+                u=h.neighbors(v)[0];
+                this_act.append(u);
+                this_act.remove(v);
+                this_done.append(v);
+                h.delete_vertex(v);
+                for w in this_act:
+                    h.delete_edge(u,w);
+                again=True;
+                break;                    
+            if h.degree(v)==0: #this vertex can make a hop. token+1, delete it from h, and add it to done.
+                token+=1;
+                this_act.remove(v);
+                this_done.append(v);
+                h.delete_vertex(v);
+                again=True;
+    #When the while loop is done, all token are collected, and all vertices in act cannot make a force.
+    if h.order()==0:
+        return True;
+    if h.order()!=0 and token==0:
+        return False;
+    #Find white set. And do recursion.
+    white_graph=h.copy();
+    for v in this_act:
+        white_graph.delete_vertex(v);
+    white=white_graph.vertices();
+    if token>=white_graph.order():
+        return True;
+    else:
+        components=white_graph.connected_components();
+        k=len(components);
+        new_graphs=[];
+        for i in range(k):
+            new_graphs.append(h.subgraph(components[i]+this_act));
+        for new_act in Combinations(white,token): #try all possible way to put the tokens
+            good_choice=True;
+            for i in range(k):
+                if good_choice:
+                    if ZplusFloor_game(new_graphs[i],[],this_act+list_intersection(components[i],new_act),0)==False:
+                        good_choice=False;
+            if good_choice==True:
+                return True;
+        return False;
+        
+def find_ZplusFloor(g):
+    """
+    Input:
+        g: a simple graph
+    Output:
+        return the value of ZplusFloor(g).
+    """
+    ZplusF=g.order()-1;
+    if ZplusF<0: #define ZFloor(null graph)=0
+        return ZplusF+1;
+    try_lower=True;
+    while try_lower:
+        try_lower=False;
+        if ZplusFloor_game(g,[],[],ZplusF)==True:
+            try_lower=True;
+            ZplusF+=-1;     
+    return ZplusF+1;

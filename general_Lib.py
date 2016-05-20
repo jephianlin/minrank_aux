@@ -36,6 +36,21 @@ def lagrange_prediction(a,b,trust=3,variable="c"):
     return f;
 
 #######
+#List Operations
+#######
+
+def list_intersection(A,B):
+    """
+    A,B are lists; 
+    return all element in B that is appeared in A, which is usually the intersection of them.
+    """
+    inter=[]
+    for b in B:
+        if b in A:
+            inter.append(b);
+    return inter;
+
+#######
 #Matrices
 #######
     

@@ -456,7 +456,41 @@ def has_SSP(A):
     SSP_sys=SSPmatrix(A);
     return rank(SSP_sys)==SSP_sys.dimensions()[1];
     
-def find_Zssp(g,rule="nonsingular"):
+def nonedge_index(g,reverse=False):
+    """
+    Input:
+        g: a graph
+    Output:
+        a dictionary {the k-th non-edge: k}; the order of non-edges is i,j<k,l if i<k or i=k with j<l. 
+    """
+    n=g.order()
+    column_index={}; #|E(Gbar)| variables
+    var_counter=0;
+    for i in range(0,n):
+        for j in range(i+1,n):
+            if g.has_edge(i,j)==False:
+                column_index[i,j]=var_counter;
+                column_index[j,i]=var_counter; 
+                var_counter+=1;
+    if reverse==False:
+        return column_index;
+    if reverse==False:
+        new_index={};
+        for key in column_index.keys():
+            new_index[column_index[key]]=key;
+        return new_index;
+
+def find_Zssp(g,rule="nonsingular",F_col=[]):
+    """
+    Input:
+        g: a simple graph
+        rule: can be "nonsingular" or "ZFS" so far
+        F_col: only compatable with rule=="ZFS", a set of non-edges
+    Output:
+        When "nonsingular", return True iff Zssp=0.
+        When "ZFS", return True iff F_col is a ZFS. 
+        (so find_Zssp(g,rule="nonsingular")=find_Zssp(g,rule="ZFS",[])
+    """
     n=g.order();
     A=g.adjacency_matrix()-diagonal_matrix([2*i for i in range(1,n+1)]);
     C=SSPmatrix(A);
@@ -475,7 +509,13 @@ def find_Zssp(g,rule="nonsingular"):
                 h.add_edge(i+1,-j-1);
                 if C[i,j]%2==0:
                     B.append((i+1,-j-1));
-    return h.order()==len(gzerosgame(h,F,B));
+    if rule=="nonsingular":
+        return h.order()==len(gzerosgame(h,F,B));
+    if rule=="ZFS":
+        col_index=nonedge_index(g)
+        for e in F_col:
+            F.append(-col_index[e]-1);
+        return h.order()==len(gzerosgame(h,F,B));
 
 def ZplusFloor_game(g,done,act,token):
     """

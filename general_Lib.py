@@ -83,6 +83,32 @@ def elementary_matrix(i,j,m,n=None):
     a[i*n+j]=1;
     return matrix(m,a);
 
+def var_matrix(g):
+    """
+    Input:
+        g: a simple graph
+    Output:
+        a matrix with variable a1_j on ij-entry if ij is an edge, and a variable di on diagonal.
+    
+    """
+    n=g.order()
+    A=matrix(n,[var("x")]*(n^2));
+    E=g.edges(labels=False);
+    Ebar=g.complement().edges(labels=False);
+    V=g.vertices();
+    for v in V:
+        A[v,v]=var("d%s"%v);
+    for e in E:
+        i=min(e);
+        j=max(e);
+        A[i,j]=var("a%s_%s"%(i,j));
+        A[j,i]=var("a%s_%s"%(i,j));
+    for e in Ebar:
+        i,j=e;
+        A[i,j]=0;
+        A[j,i]=0; 
+    return A;
+
 def latex_matrix(A):
     m,n=A.dimensions();
     print "\\begin{bmatrix}"

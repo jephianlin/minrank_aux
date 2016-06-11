@@ -109,6 +109,20 @@ def var_matrix(g):
         A[j,i]=0; 
     return A;
 
+def row_per_matrix(l):
+    n=len(l);
+    A=matrix(n,[0]*(n^2));
+    for i in range(n):
+        A[i,l[i]]=1;
+    return A;
+    
+def col_per_matrix(l):
+    n=len(l);
+    A=matrix(n,[0]*(n^2));
+    for i in range(n):
+        A[l[i],i]=1;
+    return A;
+
 def latex_matrix(A):
     m,n=A.dimensions();
     print "\\begin{bmatrix}"

@@ -480,16 +480,19 @@ def nonedge_index(g,reverse=False):
             new_index[column_index[key]]=key;
         return new_index;
 
-def find_Zssp(g,rule="nonsingular",F_col=[]):
+def find_Zssp(g,F_col=[],k=0,rule="nonsingular"):
     """
     Input:
         g: a simple graph
-        rule: can be "nonsingular" or "ZFS" so far
+        rule: can be "nonsingular" or "ZFS" or "Zsspk" so far
         F_col: only compatable with rule=="ZFS", a set of non-edges
+        k: only compatable with rule=="Zsspk", an integer
     Output:
         When "nonsingular", return True iff Zssp=0.
         When "ZFS", return True iff F_col is a ZFS. 
-        (so find_Zssp(g,rule="nonsingular")=find_Zssp(g,rule="ZFS",[])
+        When "Zsspk", return the list of k-subset of nonedges that is a ZFS.
+        (so find_Zssp(g,rule="nonsingular")=find_Zssp(g,f_col=[],rule="ZFS"),)
+        (while find_Zssp(g,k=0,rule="Zsspk")=[[]])
     """
     n=g.order();
     A=g.adjacency_matrix()-diagonal_matrix([2*i for i in range(1,n+1)]);
@@ -512,10 +515,22 @@ def find_Zssp(g,rule="nonsingular",F_col=[]):
     if rule=="nonsingular":
         return h.order()==len(gzerosgame(h,F,B));
     if rule=="ZFS":
-        col_index=nonedge_index(g)
+        col_index=nonedge_index(g);
+        try_F=copy(F);
         for e in F_col:
-            F.append(-col_index[e]-1);
-        return h.order()==len(gzerosgame(h,F,B));
+            try_F.append(-col_index[e]-1);
+        return h.order()==len(gzerosgame(h,try_F,B));
+    if rule=="Zsspk":
+        col_index=nonedge_index(g);
+        Ebar=g.complement().edges(labels=False);
+        one_nonedge=[];
+        for com in Combinations(Ebar,k):
+            try_F=copy(F);
+            for e in com:
+                try_F.append(-col_index[e]-1);
+            if h.order()==len(gzerosgame(h,try_F,B)):
+                one_nonedge.append(com);
+        return one_nonedge;
 
 def ZplusFloor_game(g,done,act,token):
     """

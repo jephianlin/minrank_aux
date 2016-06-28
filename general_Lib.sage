@@ -1,4 +1,4 @@
-print "---sshow, empty_array, all_one_matrix, elementary_matrix, eigens_multi, sort_dictionary, has_minor, etc."
+print "---sshow, multi_sshow, empty_array, all_one_matrix, elementary_matrix, eigens_multi, sort_dictionary, has_minor, etc."
 
 import random; #If this line is not included, random.choice should be changed to choice.
 
@@ -6,6 +6,40 @@ def sshow(g,stg=None):
     if stg==None:
         stg=g.graph6_string();
     g.show(figsize=[2,2],vertex_labels=False,vertex_size=50,title="%s: %s"%(g.order(),stg));
+
+def multi_sshow(all_graphs,text=None,final_figsize=None):
+    """
+    Input:
+        all_graphs: a list of graph strings
+        text: a string shown on the output picture, default is to show the strings of all_graphs
+        final_figsize: the figsize of the output picture, default is [12,2]
+    Output:
+        a picture of all graphs in all_graphs in a row, plus text as the title.
+    """
+    pic=Graph(0).plot();
+    shift=0;
+    gap=1;
+    for stg in all_graphs:
+        g=Graph(stg);
+        draft=g.plot(save_pos=True);
+        xy_range=draft.get_axes_range();
+        local_shift=-xy_range["xmin"];
+        x_range=xy_range["xmax"]-xy_range["xmin"];
+        gpos=g.get_pos();
+        for v in g.vertices():
+            gpos[v][0]+=shift+local_shift;
+        gpic=g.plot(figsize=[2,2],vertex_labels=False,vertex_size=50,pos=gpos);
+        pic+=gpic;
+        shift+=x_range+gap;
+        pic+=line([(shift-0.5*gap,-0.5),(shift-0.5*gap,0.5)],linestyle="--");
+    pic.axes(False);
+    if text==None:
+        text="";
+        for stg in all_graphs:
+            text+="%s "%stg;
+    if final_figsize==None:
+        final_figsize=[12,2];
+    pic.show(figsize=final_figsize, title=text);
 
 #######
 #Predictions

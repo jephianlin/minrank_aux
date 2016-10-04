@@ -76,13 +76,24 @@ def lagrange_prediction(a,b,trust=3,variable="c"):
 def list_intersection(A,B):
     """
     A,B are lists; 
-    return all element in B that is appeared in A, which is usually the intersection of them.
+    return all element in B that appears in A, which is usually the intersection of them.
     """
     inter=[]
     for b in B:
         if b in A:
             inter.append(b);
     return inter;
+
+def list_union(A,B):
+    """
+    A,B are lists; 
+    return A along with all element in B that does not appear in A, which is usually the union of them.
+    """
+    uni=copy(A);
+    for b in B:
+        if b not in A:
+            uni.append(b);
+    return uni;
 
 #######
 #Matrices

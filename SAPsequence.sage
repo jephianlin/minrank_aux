@@ -94,8 +94,8 @@ def Gb_find_Si(g,S,Xhats):
                 certificate.append(Si);
                 return certificate;
     return False; #no Si found
-    
- def is_null_k_partition(g,partition,tight=False,return_matrix=False,return_certificate=False):
+
+def is_null_k_partition(g,partition,tight=False,return_matrix=False,return_certificate=False):
     """
     Input:
         g: a simple graph
@@ -143,7 +143,7 @@ def Gb_find_Si(g,S,Xhats):
         return False;
     ###Check |N(s)\cap X|!=1
     for X in all_X:
-            vec=A[S,X]*all_one_matrix(len(X),1);
+            vec=A[S,X]*matrix(len(X),[1]*len(X));
             for i in range(len(S)):
                 if vec[i,0]==1:
                     verbose("|N(s)\cap X|!=1.",level=1);
@@ -227,9 +227,12 @@ def Gb_find_Si(g,S,Xhats):
     for p in range(k):
         Si=certificate[p];
         Xhat=Xhats[p];
+        union_Si_Xhat=copy(Si);
+        for rep in Xhat:
+            union_Si_Xhat.append(rep);
         DiG_n=len(Xhat);
         if DiG_n>1:
-            induced_Gb=Gb.subgraph(list_union(Si,Xhat));
+            induced_Gb=Gb.subgraph(union_Si_Xhat);
             mtch=induced_Gb.matching()
             #align two sets by the matching
             Si_order=[-1];
@@ -294,7 +297,7 @@ def Gb_find_Si(g,S,Xhats):
         else:
             L*=10;
             
- def has_null_k_partition(g,k,tight=False,return_matrix=False):
+def has_null_k_partition(g,k,tight=False,return_matrix=False):
     """
     Input:
         g: a simple graph

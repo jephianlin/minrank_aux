@@ -447,3 +447,29 @@ def calG(A,type="simple",loop=False):
         return DiGraph(new_A);
     if type=="bipartite":
         return BipartiteGraph(new_A);
+
+#######
+# Normalized Laplacian
+#######
+
+def normalize_similar(A):
+    n=A.dimensions()[0];
+    I=identity_matrix(n);
+    dd=[sum(A[i,:][0])for i in range(n)];
+    ddinv=[0]*n;
+    for i in range(n):
+        if dd[i]!=0:
+            ddinv[i]=1/dd[i];
+        else:
+            I[i,i]=0;
+    #D=diagonal_matrix(dd);
+    Dinv=diagonal_matrix(ddinv);
+    return I-Dinv*A;
+    
+def normalized_Laplacian_similar(g):
+    n=g.order();
+    A=g.adjacency_matrix();
+    return normalize_similar(A);
+
+def nl_spectrum(g):
+    return eigens_multi(normalized_Laplacian_similar(g));

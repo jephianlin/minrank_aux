@@ -183,6 +183,9 @@ def col_per_matrix(l):
         A[l[i],i]=1;
     return A;
 
+def per_similar(A,l):
+    return row_per_matrix(l)*A*col_per_matrix(l);
+
 def latex_matrix(A):
     m,n=A.dimensions();
     print "\\begin{bmatrix}"

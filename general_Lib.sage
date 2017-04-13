@@ -452,7 +452,7 @@ def calG(A,type="simple",loop=False):
         return BipartiteGraph(new_A);
 
 #######
-# Normalized Laplacian
+# Normalized Laplacian & signless Laplacian
 #######
 
 def normalize_similar(A):
@@ -476,3 +476,10 @@ def normalized_Laplacian_similar(g):
 
 def nl_spectrum(g):
     return eigens_multi(normalized_Laplacian_similar(g));
+
+def signless_Laplacian(g):
+    L=g.laplacian_matrix();
+    Q=-L;
+    for i in range(g.order()):
+        Q[i,i]=L[i,i];
+    return Q;

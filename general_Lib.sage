@@ -206,13 +206,12 @@ def inertia(D):
     n=len(egv);
     p=0;
     m=0;
-    z=0;
     for i in range(n):
         if egv[i]<0:
             m+=1;
         if egv[i]>0:
             p+=1;
-    return [p,m,z];
+    return [p,m,n-p-m];
 
 def list_to_multi(l):
     """

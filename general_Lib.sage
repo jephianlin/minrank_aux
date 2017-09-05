@@ -1,4 +1,4 @@
-print "---sshow, multi_sshow, empty_array, all_one_matrix, elementary_matrix, eigens_multi, sort_dictionary, has_minor, etc."
+print "---sshow, multi_sshow, tuple_generator, empty_array, all_one_matrix, elementary_matrix, eigens_multi, sort_dictionary, has_minor, etc."
 
 import random; #If this line is not included, random.choice should be changed to choice.
 
@@ -56,6 +56,27 @@ def multi_sshow(all_graphs,each_row=0,text=None,final_figsize=None):
         if cache!=[]:
             multi_sshow(cache);
 
+def tuple_generator(k,n):
+    """
+    Input:
+        k: a positive integer at least ;
+        n: a positive integer;
+    Output:
+        a generator generating [0,...,0], [1,0,...,0], to ,[k-1,...,k-1];
+    """
+    a=[0]*n;
+    yield a;
+    counter=1;
+    max_counter=k^n;
+    while counter<max_counter:
+        a[0]+=1;
+        for i in range(n):
+            if a[i]>=k:
+                a[i]-=k;
+                a[i+1]+=1;
+        yield a;
+        counter+=1;
+            
 #######
 #Predictions
 #######

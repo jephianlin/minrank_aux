@@ -2,7 +2,7 @@ minimum_rank_aux
 ================
 auxiliary tools for the minimum rank problem
 
-Please evaluate the line below::
+Please evaluate the line below:
 
 ```python
 # First load the minimum rank library by Jason Grout et al.

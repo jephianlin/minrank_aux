@@ -1,4 +1,4 @@
-print "---sshow, multi_sshow, tuple_generator, empty_array, all_one_matrix, elementary_matrix, eigens_multi, sort_dictionary, has_minor, etc."
+print "---sshow, multi_sshow, tuple_generator, minimal_graphs, empty_array, all_one_matrix, elementary_matrix, eigens_multi, sort_dictionary, has_minor, etc."
 
 import random; #If this line is not included, random.choice should be changed to choice.
 
@@ -76,7 +76,34 @@ def tuple_generator(k,n):
                 a[i+1]+=1;
         yield a;
         counter+=1;
-            
+
+def minimal_graphs(want_n,current_list):
+    """
+    Input:
+        want_n: a list of graph strings;
+        current_list: a list of graph strings;
+        This function assums g in current_list never has an 
+          induced subgraph from want_n;
+    Output:
+        extra minimal graphs;
+        The function finds all the g in want_n that containts 
+          no induced subgraph from want_n or current_lsit;
+    """
+    all_g=copy(want_n);
+    all_g.sort(key=lambda k:Graph(k).size());
+    min_list=copy(current_list);
+    extra_list=[];
+    for stg in all_g:
+        g=Graph(stg);
+        for stg_h in min_list:
+            h=Graph(stg_h);
+            if g.subgraph_search(h,True)!=None:
+                break;
+        else:
+            min_list.append(stg);
+            extra_list.append(stg);
+    return extra_list;
+
 #######
 #Predictions
 #######

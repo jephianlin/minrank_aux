@@ -217,6 +217,42 @@ def var_matrix(g):
         A[j,i]=0; 
     return A;
 
+def poly_matrix(g):
+    """
+    Input:
+        g: a simple graph
+    Output:
+        return a tuple R,A;
+        R is the polynomial ring over QQ with variables di and ai;
+        A is the variable adjacency matrix;
+    """
+    n=g.order()
+    E=g.edges(labels=False);
+    m=len(E);
+    d_stg=""
+    for i in range(n):
+        d_stg+="d%s,"%i;
+    a_stg=""
+    for i in range(m):
+        a_stg+="a%s,"%i;
+    R=QQ[d_stg+a_stg[0:-1]];
+    vs=R.gens();
+    Ebar=g.complement().edges(labels=False);
+    A=zero_matrix(R,n);
+    for k in range(n):
+        A[k,k]=vs[k];
+    for k in range(m):
+        e=E[k]
+        i=min(e);
+        j=max(e);
+        A[i,j]=vs[n+k];
+        A[j,i]=vs[n+k];
+    for e in Ebar:
+        i,j=e;
+        A[i,j]=0;
+        A[j,i]=0; 
+    return R,A;
+
 def row_per_matrix(l):
     n=len(l);
     A=matrix(n,[0]*(n^2));

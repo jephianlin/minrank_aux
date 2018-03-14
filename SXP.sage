@@ -623,3 +623,62 @@ def find_ZplusFloor(g):
             try_lower=True;
             ZplusF+=-1;     
     return ZplusF+1;
+
+def SMPmatrix(A):
+    """
+    Input: a symmetric matrix A
+    Output: the linear system given by SMP conditions
+    """
+    n=A.dimensions()[0];
+    R=A.base_ring();
+    row_index={}; #{n+1 choose 2}+(n-2) restrictions
+    column_index={}; #|E(Gbar)| variables
+    res_counter=0;
+    var_counter=0;
+    for i in range(0,n):
+        for j in range(i+1,n):
+            row_index[i,j]=res_counter;
+            res_counter+=1
+            if A[i,j]==0:
+                column_index[i,j]=var_counter;
+                column_index[j,i]=var_counter; 
+                var_counter+=1;
+    for q in range(2,n):
+        row_index[q]=res_counter;
+        res_counter+=1;
+    SMP_sys=matrix(R,res_counter,var_counter);
+    for i in range(0,n):
+        for j in range(i+1,n):
+            for k in range(n):
+                if k!=j and A[k,j]==0:
+                    SMP_sys[row_index[i,j],column_index[k,j]]+=A[i,k];
+                if i!=k and A[i,k]==0:
+                    SMP_sys[row_index[i,j],column_index[i,k]]-=A[k,j];
+    Aq=A^2;
+    for q in range(2,n):
+        for i in range(0,n):
+            for j in range(i+1,n):
+                if A[i,j]==0:
+                    SMP_sys[row_index[q],column_index[i,j]]+=Aq[i,j];
+        Aq=Aq*A;
+    return SMP_sys;
+    
+def has_SMP(A):
+    """
+    Input: a symmetric matrix A (described by some graph G)
+    Output: return if A has SMP or not. 
+    SMP means if for symmetric matrix B with 
+        AB-BA=0, 
+        (A^qB).trace()=0 for any q,
+        A.Hadamard_product(B)=0, and 
+        I.Hadamard_product(B)=0, 
+    then B=0.
+    
+    Example:
+        g=graphs.PathGraph(5);
+        A=g.adjacency_matrix();
+        has_SMP(A);
+        ->True
+    """
+    SMP_sys=SMPmatrix(A);
+    return rank(SMP_sys)==SMP_sys.dimensions()[1];

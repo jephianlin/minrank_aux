@@ -407,11 +407,16 @@ def Zsap_test(g,rule="buy_vertex"): #This is an old code, without Zsap^+, but wi
                 #print coms;
                 return False;
         return True;
-                    
-def SSPmatrix(A):
+
+def SSPmatrix(A, return_index=False):
     """
-    Input: a symmetric matrix A
-    Output: the linear system given by SSP conditions
+    Input: 
+        A: a symmetric matrix;
+        return_index: if True, also return two dictionaries
+                    row_index={pair: row index}
+                    column_index={nonedge: col index}
+    Output: 
+        the linear system given by SSP conditions;
     """
     n=A.dimensions()[0];
     R=A.base_ring();
@@ -435,7 +440,14 @@ def SSPmatrix(A):
                     SSP_sys[row_index[i,j],column_index[k,j]]+=A[i,k];
                 if i!=k and A[i,k]==0:
                     SSP_sys[row_index[i,j],column_index[i,k]]-=A[k,j];
-    return SSP_sys;
+    if return_index:
+        keys=column_index.keys();
+        for a,b in keys:
+            if a>b:
+                c=column_index.pop((a,b));
+        return SSP_sys,row_index,column_index;
+    else:
+        return SSP_sys;
     
 def has_SSP(A):
     """

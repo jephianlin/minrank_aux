@@ -1,4 +1,4 @@
-print "---gZ_leq, find_gZ, find_EZ, diagonal_analysis, etc."
+print("---gZ_leq, find_gZ, find_EZ, diagonal_analysis, etc.")
 
 def gzerosgame(g,F=[],B=[],oc_rule=False):
 	"""
@@ -108,7 +108,7 @@ def gZ_leq(graph, support=[], bannedset=[],i=None,oc_rule=False,find_all=False):
                 set([('b', 0), ('b', 2), ('b', 1)])
 	"""
 	if i < len(support):
-#		print 'i cannot less than the cardinality of support'
+#		print('i cannot less than the cardinality of support')
 		return False
 	j=i-len(support) # additional number of black vertices
 	VX=graph.vertices()
@@ -331,7 +331,7 @@ def bridged_edges(J):
         
     Examples:
         sage: J=[1,3,5];
-        sage: print bridged_edges(J);
+        sage: print(bridged_edges(J));
         [(('a', 1), ('b', 1)), (('a', 3), ('b', 3)), (('a', 5), ('b', 5))]
     """        
     return [(("a",j),("b",j)) for j in J];

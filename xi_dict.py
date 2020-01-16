@@ -1,4 +1,4 @@
-print "---SAPreduced_matrix, has_SAP, find_ZFloor, Zsap, etc."
+print("---SAPreduced_matrix, has_SAP, find_ZFloor, Zsap, etc.")
 
 def SAPmatrix(A):
     """

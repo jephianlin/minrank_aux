@@ -1,4 +1,4 @@
-print "---sshow, multi_sshow, tuple_generator, minimal_graphs, empty_array, all_one_matrix, elementary_matrix, eigens_multi, sort_dictionary, has_minor, etc."
+print("---sshow, multi_sshow, tuple_generator, minimal_graphs, empty_array, all_one_matrix, elementary_matrix, eigens_multi, sort_dictionary, has_minor, etc.")
 
 import random; #If this line is not included, random.choice should be changed to choice.
 
@@ -271,13 +271,11 @@ def per_similar(A,l):
     return row_per_matrix(l)*A*col_per_matrix(l);
 
 def latex_matrix(A):
-    m,n=A.dimensions();
-    print "\\begin{bmatrix}"
+    m,n = A.dimensions();
+    print(r"\begin{bmatrix}")
     for i in range(m):
-        for j in range(n-1):
-            print A[i][j], "&",;
-        print A[i][n-1], "\\\\";
-    print "\\end{bmatrix}"
+        print(' & '.join(['%s'%num for num in b]) + r' \\')
+    print(r"\end{bmatrix}")
 
 def distinct_eigens(A,dgable=True):
     if dgable==True:
@@ -331,7 +329,7 @@ def sort_dictionary(d):
     l.sort();
     #print l;
     for key in l:
-        print "%s:%s"%(key,d[key]);
+        print("%s:%s"%(key,d[key]));
     #print " ";
 
 def distance_decom(g):
@@ -502,7 +500,7 @@ def cover_matrix(m_cover,m,m_vec=None,n_cover=None,n=None,n_vec=None):
     if n_vec==None:
         n_vec=m_vec;
     if len(n_cover)!=len(n_vec):
-        print "Need to specify n_vec."
+        print("Need to specify n_vec.")
     A=matrix(m,[0]*(m*n));
     for i in range(len(m_cover)):
         for j in range(len(n_cover)):
@@ -517,7 +515,7 @@ def calG(A,type="simple",loop=False):
     """
     m,n=A.dimensions();
     if m!=n:
-        print "input matrix is not square";
+        print("input matrix is not square");
         return 0;
     new_A=copy(A);
     for i in range(n):

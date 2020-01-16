@@ -1,4 +1,4 @@
-print "This code contains extra copy of Z_game, Zell_game, Zplus_game, for the completeness of Zsap_game program.";
+print("This code contains extra copy of Z_game, Zell_game, Zplus_game, for the completeness of Zsap_game program.")
 
 ###extra copy of Z_game, Zell_game, Zplus_game.
 def Z_game(g,B,ban=[]):

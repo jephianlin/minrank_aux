@@ -274,7 +274,7 @@ def latex_matrix(A):
     m,n = A.dimensions();
     print(r"\begin{bmatrix}")
     for i in range(m):
-        print(' & '.join(['%s'%num for num in b]) + r' \\')
+        print(' & '.join(['%s'%num for num in A[i]]) + r' \\')
     print(r"\end{bmatrix}")
 
 def distinct_eigens(A,dgable=True):

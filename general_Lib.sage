@@ -398,7 +398,7 @@ def canonical_copy( G ):
 
 def contract_edge(gph,e):
     if gph.has_edge(e)==False:
-        raise ValueError, "not an edge";
+        raise ValueError("not an edge")
     ngh1=gph.neighbors(e[0]);
     ngh2=gph.neighbors(e[1]);
     h=gph.copy();

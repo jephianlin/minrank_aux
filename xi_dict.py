@@ -6,7 +6,7 @@ def SAPmatrix(A):
     Output: The matrix for checking if A has SAP
     """
     if A.is_symmetric()==False:
-        raise ValueError, "Input matrix is not symmetric."
+        raise ValueError("Input matrix is not symmetric.")
     AA=[];
     n=A.dimensions()[0];
     row_num=0;
@@ -30,7 +30,7 @@ def SAPreduced_matrix(A):
     Output: the reduced matrix for checking if A has SAP
     """
     if A.is_symmetric()==False:
-        raise ValueError, "Input matrix is not symmetric."
+        raise ValueError("Input matrix is not symmetric.")
     AA=[];
     n=A.dimensions()[0];
     nonedge=0;

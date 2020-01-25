@@ -40,7 +40,7 @@ def gzerosgame(g,F=[],B=[],oc_rule=False):
 					S.remove(x)
 					S.add(y)
 					Black_vertices.add(y)
-				        break
+					break
 	if oc_rule==False:
             return(Black_vertices);
         if oc_rule==True:

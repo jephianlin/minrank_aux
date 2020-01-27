@@ -43,7 +43,7 @@ def gzerosgame(g,F=[],B=[],oc_rule=False):
 					break
 	if oc_rule==False:
             return(Black_vertices);
-        if oc_rule==True:
+	if oc_rule==True:
             white=set(g.vertices()).difference(Black_vertices);
             white_index=[];
             for vtx in white:
@@ -116,22 +116,22 @@ def gZ_leq(graph, support=[], bannedset=[],i=None,oc_rule=False,find_all=False):
 	for y in support:
 		VX.remove(y)
 	# VX is the vertices outside support now
-        if find_all==False:
+	if find_all==False:
         	for subset in Subsets(VX,j):
         		test_set=set(support).union(subset) # the set is tested to be a zero forcing set
         		outcome=gzerosgame(graph, test_set, bannedset,oc_rule)
         		if len(outcome)==order:
         			return test_set
 	if find_all==True:
-        	all_set=[];
-                for subset in Subsets(VX,j):
-        		test_set=set(support).union(subset) # the set is tested to be a zero forcing set
-        		outcome=gzerosgame(graph, test_set, bannedset,oc_rule)
-        		if len(outcome)==order:
+		all_set=[];
+		for subset in Subsets(VX,j):
+			test_set=set(support).union(subset) # the set is tested to be a zero forcing set
+			outcome=gzerosgame(graph, test_set, bannedset,oc_rule)
+			if len(outcome)==order:
         			all_set.append(subset);
-                if all_set!=[]:
+		if all_set!=[]:
                         return all_set;
-        return False;
+	return False;
 
 def find_gzfs(graph, support=[], bannedset=[], upper_bound=None, lower_bound=None, oc_rule=False):
 	"""
@@ -250,7 +250,7 @@ def Y(g):
 	return [('b',i) for i in g.vertices()]
 
 def tilde_bipartite(g,I=[]):
-	"""
+	r"""
 	For a given graph g and an index set I, return the bipartite graph \widetilde{G}_I used to compute the exhaustive zero forcing number.
 
 	Input:
@@ -305,7 +305,7 @@ def find_EZ(g,bound=None, oc_rule=False):
 	"""
 	order=g.order()
 	if bound==None:
-                Z=find_gZ(g) # without support and banned set, the value is the original zero forcing number
+		Z=find_gZ(g) # without support and banned set, the value is the original zero forcing number
 		bound=Z # default upper bound
 	gZ_bound=bound+order 
 	V=set(g.vertices())

@@ -292,7 +292,7 @@ def find_Zsap(g,rule="CCRZ",oc_rule=True,get_value=False):
         return ubd;     
 
 def Zsap_test(g,rule="buy_vertex"): #This is an old code, without Zsap^+, but with nonsingular_E, one_coin_edge, buy_edge.
-    """
+    r"""
     Input:
         g simple graph; ##should be relabeled by 0,1, ..., n-1
         rule "nonsingular" only test if Zsap(g,rule="one_coin_edge")==0 or not;

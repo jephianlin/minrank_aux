@@ -1,4 +1,4 @@
-minimum_rank_aux
+minrank_aux
 ================
 auxiliary tools for the minimum rank problem
 
@@ -12,5 +12,5 @@ for f in files:
     load(URL+f)
     
 # Then load this repository.
-load("https://raw.githubusercontent.com/jephianlin/minimum_rank_aux/master/load_all.py");
+load("https://raw.githubusercontent.com/jephianlin/minrank_aux/master/load_all.py");
 ```

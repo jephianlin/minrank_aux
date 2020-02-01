@@ -128,7 +128,7 @@ def gZ_leq(graph, support=[], bannedset=[],i=None,oc_rule=False,find_all=False):
 			test_set=set(support).union(subset) # the set is tested to be a zero forcing set
 			outcome=gzerosgame(graph, test_set, bannedset,oc_rule)
 			if len(outcome)==order:
-        			all_set.append(subset);
+        			all_set.append(test_set);
 		if all_set!=[]:
                         return all_set;
 	return False;
@@ -368,9 +368,35 @@ def find_loopedZ(g,I,J=[],oc_rule=False):
         sage: g = graphs.CompleteMultipartiteGraph([3,3,3]);
         sage: find_loopedZ(g,[],[],oc_rule=True);
         6
-        
     """
     return find_gZ(tilde_bipartite(g,I+J),Y(g),bridged_edges(J),None,None,oc_rule)-g.order();
+
+def clean_Y(S):
+    return [v[1] for v in S if v[0]=='a']
+
+def find_loopedZ_sets(g, I, J=[], oc_rule=False, k=None, find_all=False):
+    """
+    For a given graph g and the index of the vertices with loops, return a zero forcing set of this looped graph with order k.
+    
+    Input:
+        g: a simple graph, the underlying graph of the looped graph.
+        I: the index of the vertices with exactly one loop.
+        J: the index of the vertices with double loops.
+	k: an integer;
+	   if None is given, k is the zero forcing number.
+	find_all: if True, find all zero forcing sets of order k
+    
+    Output:
+        a zero forcing set of this (multi-)looped graph of order k.
+    """
+    if k == None:
+        k = find_gZ(tilde_bipartite(g,I+J), Y(g), bridged_edges(J), None, None, oc_rule) - g.order()
+
+    B_tilde = gZ_leq(tilde_bipartite(g,I+J), Y(g), bridged_edges(J), k+g.order(), oc_rule, find_all)
+    if find_all:
+        return [clean_Y(S) for S in B_tilde]
+    else:
+        return clean_Y(B_tilde)
 
 def nonsingular_graph(g):
     """

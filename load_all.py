@@ -15,9 +15,17 @@ def load_all(mr_JG=True, minrank_aux=True, timeout=5, load_func='load'):
         func = load
     if load_func == 'loadurl':
         func = lambda url: loadurl(url, timeout=timeout)
+
+    sage_ver = float(sage.misc.banner.SAGE_VERSION)
     
     if mr_JG:
-        URL='https://raw.githubusercontent.com/jephianlin/mr_JG/master/'
+        ### temporary setting
+        ### hope the version become more consistent in the future
+        if sage_ver >= 8.9:
+            URL='https://raw.githubusercontent.com/jephianlin/mr_JG/master/'
+        else sage_ver <= 8.1:
+            URL='https://raw.githubusercontent.com/jephianlin/mr_JG/py2/'
+            
         files=['Zq_c.pyx','Zq.py','zero_forcing_64.pyx','zero_forcing_wavefront.pyx','minrank.py', 'inertia.py']
         for f in files:
             print("Loading %s..."%f);

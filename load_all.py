@@ -9,8 +9,12 @@ def loadurl(url, timeout=5):
     sage.repl.load.load(temp_name, globals())
     os.unlink(temp_name)
 
-def load_all(mr_JG=True, minrank_aux=True, timeout=5, load_func='loadurl'):
-    func = eval(load_func) # load_func can be 'loadurl' (default) or 'load'
+def load_all(mr_JG=True, minrank_aux=True, timeout=5, load_func='load'):
+    # load_func can be 'loadurl' (default) or 'load'
+    if load_func == 'load':
+        func = load
+    if load_func == 'loadurl':
+        func = lambda url: loadurl(url, timeout=timeout)
     
     if mr_JG:
         URL='https://raw.githubusercontent.com/jephianlin/mr_JG/master/'

@@ -23,7 +23,7 @@ def load_all(mr_JG=True, minrank_aux=True, timeout=5, load_func='load'):
         ### hope the version become more consistent in the future
         if sage_ver >= 8.9:
             URL='https://raw.githubusercontent.com/jephianlin/mr_JG/master/'
-        else sage_ver <= 8.1:
+        else:
             URL='https://raw.githubusercontent.com/jephianlin/mr_JG/py2/'
             
         files=['Zq_c.pyx','Zq.py','zero_forcing_64.pyx','zero_forcing_wavefront.pyx','minrank.py', 'inertia.py']

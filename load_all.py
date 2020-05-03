@@ -37,3 +37,11 @@ def load_all(mr_JG=True, minrank_aux=True, timeout=5, load_func='load'):
         for f in files:
             print("Loading %s..."%f);
             func(URL+f);
+
+try:
+    for i in xrange(3):
+        pass
+    print('xrange test passed')
+except NameError:
+    xrange = range
+    print('xrange test failed: define xrange = range')

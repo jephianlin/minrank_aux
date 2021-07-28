@@ -24,5 +24,5 @@ Now run the code below in your Jupyter notebook.
 
 ```Python
 load("minrank_aux-master/load_all.py")
-load_all(loacl=True)
+load_all(local=True)
 ```

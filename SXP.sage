@@ -694,3 +694,34 @@ def has_SMP(A):
     """
     SMP_sys=SMPmatrix(A);
     return rank(SMP_sys)==SMP_sys.dimensions()[1];
+
+def SNIPmatrix(A, v):
+    """
+    Input: a symmetric matrix A
+    Output: the SNIP verification matrix of A
+    """
+    if A.is_symmetric() == False:
+        raise ValueError("Input matrix is not symmetric.")
+    Psi = []
+    n = A.dimensions()[0]
+    nonedge = 0
+    for i in range(n):
+        for j in range(i+1,n):
+            if A[i][j] == 0:
+                Psi.append([0] * (n*n))
+                for k in range(n):
+                    Psi[nonedge][j+n*k] = A[k][i]
+                    Psi[nonedge][i+n*k] = A[k][j]
+                nonedge += 1;                    
+    alpha = [i for i in range(n*n) if i < v*n or i >= (v+1)*n]
+    if nonedge == 0:
+        return matrix([])
+    else:
+        return matrix(Psi)[:,alpha]
+
+def has_SNIP(A, v):
+    Psi = SNIPmatrix(A, v);
+    if Psi.rank() == Psi.dimensions()[0]:
+        return True;
+    else:
+        return False;    

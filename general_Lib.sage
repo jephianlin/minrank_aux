@@ -283,16 +283,36 @@ def distinct_eigens(A,dgable=True):
     if dgable==False:
         return len(set(g.distance_matrix().eigenvalues()));
 
-def inertia(D):
-    egv=D.eigenvalues();
-    n=len(egv);
-    p=0;
-    m=0;
+def inertia(A, exact=True):
+    n = A.dimensions()[0]
+    
+    if exact: # do congruent
+        D = copy(A).change_ring(QQ)        
+        for i in range(n):
+            if D[i,i] == 0:
+                for j in range(i+1, n):
+                    if D[j,i] != 0:
+                        D.add_multiple_of_row(i, j, 1/2)
+                        D.add_multiple_of_column(i, j, 1/2)
+                        break
+            if D[i,i] != 0:
+                k = D[i,i]
+                for j in range(i+1, n):
+                    if D[j,i] != 0:
+                        D.add_multiple_of_row(j, i, -D[j,i] / D[i,i])
+                        D.add_multiple_of_column(j, i, -D[i,j] / D[i,i])
+        vals = [D[i,i] for i in range(n)]
+        # show(D)
+    else:
+        vals = A.eigenvalues()
+
+    p = 0;
+    m = 0;
     for i in range(n):
-        if egv[i]<0:
-            m+=1;
-        if egv[i]>0:
-            p+=1;
+        if vals[i] < 0:
+            m += 1;
+        if vals[i] > 0:
+            p += 1;
     return [p,m,n-p-m];
 
 def list_to_multi(l):
